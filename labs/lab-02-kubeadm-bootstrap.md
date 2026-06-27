@@ -274,9 +274,8 @@ systemctl status kubelet --no-pager
 journalctl -u kubelet --no-pager -n 50
 
 # Check API server is responding
-kubectl get --raw /healthz
-kubectl get --raw /readyz
-kubectl get --raw /livez
+kubectl get --raw /metrics | head -50
+
 ```
 
 The API server exposes `/healthz`, `/readyz`, and `/livez` endpoints. These are useful for diagnosing startup issues when the API server is partially functional.
