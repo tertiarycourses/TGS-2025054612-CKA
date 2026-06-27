@@ -1,18 +1,24 @@
 # Lab 24 — StorageClass and Dynamic Provisioning
 
-Static PVs don't scale. With dynamic provisioning, a StorageClass + CSI driver creates a PV on demand when a PVC is submitted. In this lab you install the local-path-provisioner, create a default StorageClass, and watch a PVC trigger PV creation.
+Static PVs don't scale. Dynamic provisioning uses a StorageClass and a CSI provisioner to create PVs automatically when a PVC is submitted. CKA 2026 tests creating StorageClasses, marking a default class, dynamic PVC binding, and StatefulSet `volumeClaimTemplates`.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
+Run on https://killercoda.com/playgrounds/scenario/kubernetes
+
+**Required software (free):**
+- `kubectl` (pre-installed on Killercoda)
+- `local-path-provisioner` (installed in Step 2 if not present)
+- `postgres:16-alpine` image (pulled automatically)
 
 ---
 
-## Step 1 — Check existing storage classes
+## Step 1 — Check existing StorageClasses
 
 ```bash
 kubectl get storageclass
+kubectl get sc
 ```
 
-On Killercoda you may already have a `local-path` StorageClass. If yes, skip Step 2.
+Killercoda may already have `local-path`. If `(default)` appears next to it, skip Step 2 and 3.
 
 ---
 
@@ -26,95 +32,117 @@ kubectl get storageclass
 
 ---
 
-## Step 3 — Mark it as default
+## Step 3 — Mark it as the default StorageClass
 
 ```bash
 kubectl patch storageclass local-path \
-  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+  -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 kubectl get sc
 ```
 
-The `(default)` marker appears next to `local-path`.
+The `(default)` marker means PVCs without `storageClassName` use this class automatically.
 
 ---
 
-## Step 4 — Create a PVC without specifying a class
+## Step 4 — Create a PVC without specifying a class (uses default)
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > data-pvc.yaml <<'EOF'
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadata: { name: data-pvc }
+metadata:
+  name: data-pvc
 spec:
-  accessModes: [ReadWriteOnce]
-  resources: { requests: { storage: 200Mi } }
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
 EOF
-kubectl get pvc
+kubectl apply -f data-pvc.yaml
+kubectl get pvc data-pvc
 kubectl get pv
 ```
 
-A PV appears automatically — that's the provisioner reacting to the PVC.
+A PV appears automatically — the provisioner reacted to the PVC. Status goes `Pending` → `Bound`.
 
 ---
 
-## Step 5 — Mount it in a StatefulSet
+## Step 5 — StatefulSet with volumeClaimTemplates
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > sts.yaml <<'EOF'
 apiVersion: v1
 kind: Service
-metadata: { name: db-headless }
+metadata:
+  name: db-headless
 spec:
   clusterIP: None
-  selector: { app: db }
-  ports: [{ port: 5432 }]
+  selector:
+    app: db
+  ports:
+  - port: 5432
 ---
 apiVersion: apps/v1
 kind: StatefulSet
-metadata: { name: db }
+metadata:
+  name: db
 spec:
   serviceName: db-headless
   replicas: 2
-  selector: { matchLabels: { app: db } }
+  selector:
+    matchLabels:
+      app: db
   template:
-    metadata: { labels: { app: db } }
+    metadata:
+      labels:
+        app: db
     spec:
       containers:
       - name: pg
         image: postgres:16-alpine
         env:
-        - { name: POSTGRES_PASSWORD, value: changeme }
+        - name: POSTGRES_PASSWORD
+          value: changeme
         volumeMounts:
-        - { name: data, mountPath: /var/lib/postgresql/data, subPath: pg }
+        - name: data
+          mountPath: /var/lib/postgresql/data
+          subPath: pg
   volumeClaimTemplates:
-  - metadata: { name: data }
+  - metadata:
+      name: data
     spec:
-      accessModes: [ReadWriteOnce]
-      resources: { requests: { storage: 500Mi } }
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 500Mi
 EOF
+kubectl apply -f sts.yaml
 kubectl rollout status statefulset/db
 kubectl get pvc
 kubectl get pv
 ```
 
-Each replica gets its **own** PVC and PV — `data-db-0`, `data-db-1`.
+Each replica gets its own PVC: `data-db-0`, `data-db-1`. This is the key difference from Deployments — StatefulSet PVCs are not shared.
 
 ---
 
-## Step 6 — Verify the volume lifecycle
+## Step 6 — Verify data persistence across Pod restarts
 
 ```bash
-kubectl exec db-0 -- psql -U postgres -c "create table t(x int); insert into t values(1);"
+kubectl exec db-0 -- psql -U postgres -c \
+  "create table t(x int); insert into t values(42);"
 kubectl delete pod db-0
 kubectl wait --for=condition=Ready pod/db-0 --timeout=120s
 kubectl exec db-0 -- psql -U postgres -c "select * from t;"
 ```
 
-Data survives the pod restart.
+Expected: row with `42` — data survived the Pod restart.
 
 ---
 
-## Step 7 — Cleanup
+## Step 7 — Clean up
 
 ```bash
 kubectl delete statefulset db
@@ -123,11 +151,23 @@ kubectl delete pvc -l app=db
 kubectl delete pvc data-pvc
 ```
 
-PVCs created by `volumeClaimTemplates` are **not** auto-deleted; clean them up explicitly.
+PVCs from `volumeClaimTemplates` are **not** auto-deleted when the StatefulSet is removed — always clean them up explicitly.
+
+---
+
+## Free online tools
+
+- **StorageClass docs**: https://kubernetes.io/docs/concepts/storage/storage-classes/
+- **Dynamic provisioning**: https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/
+- **local-path-provisioner**: https://github.com/rancher/local-path-provisioner
+- **killer.sh** — CKA mock exam: https://killer.sh
+- **Kubernetes docs** (allowed in CKA exam): https://kubernetes.io/docs/
 
 ---
 
 ## What you learned
-- StorageClass + provisioner = dynamic PV creation.
-- The default-class annotation lets PVCs omit `storageClassName`.
-- `volumeClaimTemplates` give each StatefulSet replica its own persistent volume.
+
+- StorageClass + provisioner = automatic PV creation on PVC submission.
+- The `is-default-class: "true"` annotation makes PVCs without `storageClassName` use this class.
+- `volumeClaimTemplates` in a StatefulSet gives each replica its own independent PVC.
+- StatefulSet PVCs survive StatefulSet deletion — clean them up manually.

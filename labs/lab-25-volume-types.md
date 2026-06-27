@@ -1,164 +1,220 @@
 # Lab 25 — Volume Types in Pods
 
-Beyond PVCs, pods can mount many in-tree volume types: `emptyDir`, `hostPath`, `configMap`, `secret`, `projected`, `downwardAPI`. In this lab you exercise each of them.
+Beyond PVCs, Pods can mount many in-tree volume types: `emptyDir`, `hostPath`, `configMap`, `secret`, `projected`, and `downwardAPI`. CKA 2026 tests all of these — especially `projected` (combining multiple sources) and `downwardAPI` (exposing Pod metadata to the application).
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
+Run on https://killercoda.com/playgrounds/scenario/kubernetes
+
+**Required software (free):**
+- `kubectl` (pre-installed on Killercoda)
+- `busybox` image (pre-pulled on Killercoda)
 
 ---
 
-## Step 1 — emptyDir (scratch space, pod lifetime)
+## Step 1 — emptyDir: shared scratch space within a Pod
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > emptydir.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
-metadata: { name: scratch }
+metadata:
+  name: scratch
 spec:
   containers:
   - name: writer
     image: busybox
-    command: ["sh","-c","echo hello > /data/file; sleep 3600"]
-    volumeMounts: [{ name: tmp, mountPath: /data }]
+    command: ["sh", "-c", "echo hello-shared > /data/file; sleep 3600"]
+    volumeMounts:
+    - name: tmp
+      mountPath: /data
   - name: reader
     image: busybox
-    command: ["sh","-c","cat /data/file; sleep 3600"]
-    volumeMounts: [{ name: tmp, mountPath: /data }]
+    command: ["sh", "-c", "sleep 2; cat /data/file; sleep 3600"]
+    volumeMounts:
+    - name: tmp
+      mountPath: /data
   volumes:
   - name: tmp
     emptyDir: {}
 EOF
-kubectl wait --for=condition=Ready pod/scratch --timeout=60s
+kubectl apply -f emptydir.yaml
+sleep 5
 kubectl logs scratch -c reader
 ```
 
-Two containers share `/data`. Deleting the pod deletes the volume.
+Expected: `hello-shared`. The volume is created at Pod start and deleted when the Pod is removed.
 
 ---
 
-## Step 2 — hostPath (node directory)
+## Step 2 — hostPath: mount a node directory
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > hostpath.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
-metadata: { name: hostpath-demo }
+metadata:
+  name: hostpath-demo
 spec:
   containers:
   - name: app
     image: busybox
-    command: ["sh","-c","ls /host/etc/hostname; cat /host/etc/hostname; sleep 3600"]
-    volumeMounts: [{ name: etc, mountPath: /host/etc, readOnly: true }]
+    command: ["sh", "-c", "cat /host/etc/hostname; sleep 3600"]
+    volumeMounts:
+    - name: etc
+      mountPath: /host/etc
+      readOnly: true
   volumes:
   - name: etc
-    hostPath: { path: /etc, type: Directory }
+    hostPath:
+      path: /etc
+      type: Directory
 EOF
-kubectl wait --for=condition=Ready pod/hostpath-demo --timeout=60s
+kubectl apply -f hostpath.yaml
+sleep 3
 kubectl logs hostpath-demo
 ```
 
-⚠️ `hostPath` couples the pod to a specific node and is a security risk — admission controllers usually restrict it.
+`hostPath` couples the Pod to a specific node — use only in DaemonSets or for node-level tools.
 
 ---
 
-## Step 3 — configMap and secret as files
-
-Done in Lab 12 and Lab 13 — re-check:
+## Step 3 — configMap and secret as volume mounts
 
 ```bash
-kubectl create configmap demo-cfg --from-literal=greeting=hi
-kubectl create secret generic demo-sec --from-literal=token=s3cret
+kubectl create configmap demo-cfg --from-literal=greeting=hello-cka
+kubectl create secret generic demo-sec --from-literal=token=s3cret-token
 
-cat <<'EOF' | kubectl apply -f -
+cat > mount-demo.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
-metadata: { name: mount-demo }
+metadata:
+  name: mount-demo
 spec:
   containers:
   - name: app
     image: busybox
-    command: ["sh","-c","cat /cfg/greeting /sec/token; sleep 3600"]
+    command: ["sh", "-c", "cat /cfg/greeting; echo; cat /sec/token; sleep 3600"]
     volumeMounts:
-    - { name: cfg, mountPath: /cfg }
-    - { name: sec, mountPath: /sec }
+    - name: cfg
+      mountPath: /cfg
+    - name: sec
+      mountPath: /sec
+      readOnly: true
   volumes:
-  - { name: cfg, configMap: { name: demo-cfg } }
-  - { name: sec, secret:    { secretName: demo-sec } }
+  - name: cfg
+    configMap:
+      name: demo-cfg
+  - name: sec
+    secret:
+      secretName: demo-sec
+      defaultMode: 0400
 EOF
-kubectl wait --for=condition=Ready pod/mount-demo --timeout=60s
+kubectl apply -f mount-demo.yaml
+sleep 3
 kubectl logs mount-demo
 ```
 
+Secret files are mounted as tmpfs — never written to node disk.
+
 ---
 
-## Step 4 — projected (combine many sources)
+## Step 4 — projected: combine multiple sources in one mount
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > projected.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
-metadata: { name: projected-demo }
+metadata:
+  name: projected-demo
 spec:
   containers:
   - name: app
     image: busybox
-    command: ["sh","-c","ls -la /proj; cat /proj/greeting /proj/token; sleep 3600"]
-    volumeMounts: [{ name: all, mountPath: /proj }]
+    command: ["sh", "-c", "ls /proj; cat /proj/greeting; echo; cat /proj/token; sleep 3600"]
+    volumeMounts:
+    - name: all
+      mountPath: /proj
   volumes:
   - name: all
     projected:
       sources:
-      - configMap: { name: demo-cfg }
-      - secret:    { name: demo-sec }
+      - configMap:
+          name: demo-cfg
+      - secret:
+          name: demo-sec
 EOF
-kubectl wait --for=condition=Ready pod/projected-demo --timeout=60s
+kubectl apply -f projected.yaml
+sleep 3
 kubectl logs projected-demo
 ```
 
-A single mount point exposes keys from multiple ConfigMaps/Secrets/serviceAccountTokens.
+A `projected` volume merges ConfigMaps, Secrets, and ServiceAccount tokens into a single mount point.
 
 ---
 
-## Step 5 — downwardAPI (pod metadata as files)
+## Step 5 — downwardAPI: expose Pod metadata to the container
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > downward.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
 metadata:
   name: downward-demo
-  labels: { tier: web, env: prod }
+  labels:
+    tier: web
+    env: prod
 spec:
   containers:
   - name: app
     image: busybox
-    command: ["sh","-c","cat /info/labels /info/name; sleep 3600"]
-    volumeMounts: [{ name: info, mountPath: /info }]
+    command: ["sh", "-c", "cat /info/labels; echo; cat /info/podname; sleep 3600"]
+    volumeMounts:
+    - name: info
+      mountPath: /info
   volumes:
   - name: info
     downwardAPI:
       items:
       - path: labels
-        fieldRef: { fieldPath: metadata.labels }
-      - path: name
-        fieldRef: { fieldPath: metadata.name }
+        fieldRef:
+          fieldPath: metadata.labels
+      - path: podname
+        fieldRef:
+          fieldPath: metadata.name
 EOF
-kubectl wait --for=condition=Ready pod/downward-demo --timeout=60s
+kubectl apply -f downward.yaml
+sleep 3
 kubectl logs downward-demo
 ```
 
+`downwardAPI` exposes Pod metadata (labels, name, namespace, UID) and resource fields as files — useful for apps that need to know their own identity.
+
 ---
 
-## Step 6 — Cleanup
+## Step 6 — Clean up
 
 ```bash
-kubectl delete pod scratch hostpath-demo mount-demo projected-demo downward-demo
+kubectl delete pod scratch hostpath-demo mount-demo projected-demo downward-demo \
+  --force --grace-period=0
 kubectl delete configmap demo-cfg
 kubectl delete secret demo-sec
 ```
 
 ---
 
+## Free online tools
+
+- **Volumes docs**: https://kubernetes.io/docs/concepts/storage/volumes/
+- **Projected volumes**: https://kubernetes.io/docs/concepts/storage/projected-volumes/
+- **Downward API**: https://kubernetes.io/docs/concepts/workloads/pods/downward-api/
+- **killer.sh** — CKA mock exam: https://killer.sh
+- **Kubernetes docs** (allowed in CKA exam): https://kubernetes.io/docs/
+
+---
+
 ## What you learned
-- emptyDir for scratch, hostPath for node files (risky).
-- configMap/secret/projected mounts are tmpfs and auto-updating.
-- downwardAPI exposes pod metadata to the app.
+
+- `emptyDir` — ephemeral, Pod-scoped, shared between containers.
+- `hostPath` — node directory mount; risky in production, useful in DaemonSets.
+- `configMap`/`secret` mounts are tmpfs and update live (within ~60s).
+- `projected` merges multiple ConfigMaps, Secrets, and token sources into one mount.
+- `downwardAPI` exposes Pod metadata (labels, name, namespace) as files.

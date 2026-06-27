@@ -1,141 +1,181 @@
 # Lab 27 — Troubleshoot Nodes
 
-Nodes go `NotReady` when the kubelet can't report healthy. In this lab you simulate three common node-level failures and recover from each.
+A node transitions to `NotReady` when the kubelet stops reporting. CKA 2026 tests diagnosing three common causes: kubelet service failure, cgroup driver mismatch, and containerd failure. You must also know how to safely drain a node for maintenance.
 
-Use the **kubeadm playground** (so you have shell access to the nodes):
-https://killercoda.com/playgrounds/scenario/kubeadm
+Run on https://killercoda.com/playgrounds/scenario/kubeadm
+
+**Required software (free):**
+- `kubectl` (pre-installed on Killercoda)
+- `systemctl`, `journalctl` (pre-installed)
 
 ---
 
-## Step 1 — Baseline
+## Step 1 — Check node status baseline
 
 ```bash
-kubectl get nodes
-kubectl describe node node01 | grep -E "Conditions|Taints" -A6
+kubectl get nodes -o wide
+kubectl describe node node01 | grep -A10 Conditions
 ```
 
-The five conditions: `Ready`, `MemoryPressure`, `DiskPressure`, `PIDPressure`, `NetworkUnavailable`.
+Both nodes should be `Ready`. Note the Conditions section — you will compare after breaking things.
 
 ---
 
-## Step 2 — Stop the kubelet
+## Step 2 — Scenario 1: kubelet service stops
 
-On **node01**:
+On **node01** terminal:
 
 ```bash
 sudo systemctl stop kubelet
 ```
 
-Back on **controlplane** (wait ~40 s):
+On **controlplane** — watch the node go `NotReady`:
 
 ```bash
-kubectl get nodes
-# node01   NotReady
+kubectl get nodes -w
 ```
 
-`kubectl describe node node01` shows `Kubelet stopped posting node status`.
+After ~40 seconds node01 shows `NotReady`. Press Ctrl+C.
+
+Diagnose on **node01**:
+
+```bash
+sudo systemctl status kubelet --no-pager
+sudo journalctl -u kubelet --since "2 minutes ago" | tail -20
+```
 
 Fix:
 
 ```bash
-# on node01
 sudo systemctl start kubelet
-sudo journalctl -u kubelet -n 20 --no-pager
+kubectl get nodes
 ```
 
 ---
 
-## Step 3 — Break the kubelet config
+## Step 3 — Scenario 2: cgroup driver mismatch
 
 On **node01**:
 
 ```bash
-sudo cp /var/lib/kubelet/config.yaml /var/lib/kubelet/config.yaml.bak
+sudo cp /var/lib/kubelet/config.yaml /tmp/kubelet-config-backup.yaml
 sudo sed -i 's/cgroupDriver: systemd/cgroupDriver: cgroupfs/' /var/lib/kubelet/config.yaml
 sudo systemctl restart kubelet
-sudo journalctl -u kubelet -n 30 --no-pager | grep -i cgroup
 ```
 
-`misconfiguration: kubelet cgroup driver: "cgroupfs" is different from docker cgroup driver: "systemd"` — and the node won't reach `Ready`.
-
-Recover:
+On **controlplane**:
 
 ```bash
-sudo cp /var/lib/kubelet/config.yaml.bak /var/lib/kubelet/config.yaml
+kubectl get nodes -w
+kubectl describe node node01 | grep -A5 Conditions
+```
+
+node01 goes `NotReady`. On **node01**:
+
+```bash
+sudo journalctl -u kubelet --since "1 minute ago" | grep -i "cgroup\|error" | tail -10
+```
+
+Fix:
+
+```bash
+sudo cp /tmp/kubelet-config-backup.yaml /var/lib/kubelet/config.yaml
 sudo systemctl restart kubelet
+kubectl get nodes
 ```
 
 ---
 
-## Step 4 — Cordon and drain
+## Step 4 — Scenario 3: containerd stops
 
-Sometimes you need to take a node out of service safely.
+On **node01**:
+
+```bash
+sudo systemctl stop containerd
+```
+
+On **controlplane**:
+
+```bash
+kubectl get nodes -w
+```
+
+node01 goes `NotReady` immediately — kubelet loses its CRI connection.
+
+Diagnose on **node01**:
+
+```bash
+sudo systemctl status containerd --no-pager
+sudo journalctl -u kubelet --since "1 minute ago" | grep -i "CRI\|runtime\|connect" | tail -10
+```
+
+Fix:
+
+```bash
+sudo systemctl start containerd
+kubectl get nodes
+```
+
+---
+
+## Step 5 — Cordon and drain for planned maintenance
 
 ```bash
 kubectl cordon node01
 kubectl get nodes
-kubectl drain node01 --ignore-daemonsets --delete-emptydir-data
 ```
 
-`cordon` marks unschedulable; `drain` evicts existing pods.
+`SchedulingDisabled` — no new Pods will be placed on node01.
 
-Bring it back:
+```bash
+kubectl drain node01 --ignore-daemonsets --delete-emptydir-data
+kubectl get pods -o wide
+```
+
+All non-DaemonSet Pods are evicted. After maintenance:
 
 ```bash
 kubectl uncordon node01
-```
-
----
-
-## Step 5 — Disk pressure simulation
-
-```bash
-# on node01 — fill /var to >85% (DO NOT do this on a real cluster)
-sudo fallocate -l 5G /var/big.fill
-```
-
-After ~1 minute:
-
-```bash
-kubectl describe node node01 | grep -A2 DiskPressure
-kubectl get events --field-selector reason=NodeHasDiskPressure -A
-```
-
-Pods may be evicted. Recover:
-
-```bash
-sudo rm /var/big.fill
-```
-
----
-
-## Step 6 — Container runtime down
-
-```bash
-# on node01
-sudo systemctl stop containerd
 kubectl get nodes
-sudo journalctl -u kubelet -n 10 --no-pager
-sudo systemctl start containerd
 ```
-
-The kubelet's CRI connection fails — node flips to `NotReady` until containerd is back.
 
 ---
 
-## Step 7 — Triage checklist
+## Step 6 — Node troubleshooting checklist
 
-When a node is `NotReady`:
-1. `kubectl describe node <name>` — check Conditions.
-2. SSH in. `systemctl status kubelet containerd`.
-3. `journalctl -u kubelet -u containerd -n 50 --no-pager`.
-4. `sudo crictl ps` — runtime sanity check.
-5. Disk: `df -h`. Memory: `free -h`. PIDs: `cat /proc/sys/kernel/pid_max` vs `ps -e | wc -l`.
-6. Network: `kubectl get pods -A -o wide` — are CNI pods on this node `Running`?
+```bash
+# 1. Node status and conditions
+kubectl describe node <name> | grep -A10 Conditions
+
+# 2. kubelet service
+sudo systemctl status kubelet
+sudo journalctl -u kubelet -n 50
+
+# 3. containerd service
+sudo systemctl status containerd
+sudo journalctl -u containerd -n 20
+
+# 4. Disk / memory pressure
+kubectl describe node <name> | grep -E "pressure|capacity|allocatable"
+
+# 5. CNI pods on node
+kubectl get pods -n kube-system -o wide | grep <node-name>
+```
+
+---
+
+## Free online tools
+
+- **Node troubleshooting docs**: https://kubernetes.io/docs/tasks/debug/debug-cluster/
+- **kubelet config reference**: https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/
+- **killer.sh** — CKA mock exam: https://killer.sh
+- **Kubernetes docs** (allowed in CKA exam): https://kubernetes.io/docs/
 
 ---
 
 ## What you learned
-- kubelet + containerd are the node's lifeline.
-- Five node conditions and the symptoms that trigger each.
-- Cordon, drain, uncordon for planned maintenance.
+
+- `NotReady` within 40s usually means kubelet stopped — check `systemctl status kubelet`.
+- cgroup driver mismatch (`systemd` vs `cgroupfs`) breaks kubelet — check `/var/lib/kubelet/config.yaml`.
+- containerd failure cuts the kubelet CRI connection — `systemctl status containerd`.
+- `kubectl cordon` → `kubectl drain --ignore-daemonsets` → maintenance → `kubectl uncordon` is the safe node maintenance sequence.

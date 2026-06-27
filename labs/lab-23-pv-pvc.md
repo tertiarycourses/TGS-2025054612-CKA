@@ -1,8 +1,12 @@
 # Lab 23 — PersistentVolume and PersistentVolumeClaim
 
-A PersistentVolume (PV) is a piece of storage in the cluster. A PersistentVolumeClaim (PVC) is a pod's request for storage. In this lab you statically provision a `hostPath` PV, claim it, mount it, and explore access modes and reclaim policies.
+A PersistentVolume (PV) is a cluster-level storage resource. A PersistentVolumeClaim (PVC) is a Pod's request for that storage. CKA 2026 tests static provisioning, PV/PVC binding rules, access modes, reclaim policies, and the fact that PVCs outlive Pods.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
+Run on https://killercoda.com/playgrounds/scenario/kubernetes
+
+**Required software (free):**
+- `kubectl` (pre-installed on Killercoda)
+- `nginx` image (pulled automatically)
 
 ---
 
@@ -15,110 +19,109 @@ echo "hello from host" | sudo tee /mnt/data/index.html
 
 ---
 
-## Step 2 — Create a PV
+## Step 2 — Create a PersistentVolume (static provisioning)
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > pv.yaml <<'EOF'
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: pv-host
 spec:
-  capacity: { storage: 1Gi }
-  accessModes: [ReadWriteOnce]
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: manual
-  hostPath: { path: /mnt/data }
+  hostPath:
+    path: /mnt/data
 EOF
+kubectl apply -f pv.yaml
 kubectl get pv pv-host
 ```
 
-Access modes:
-- **ReadWriteOnce (RWO)** — one node, read-write
-- **ReadOnlyMany (ROX)** — many nodes, read-only
-- **ReadWriteMany (RWX)** — many nodes, read-write (needs NFS/CephFS-class storage)
-- **ReadWriteOncePod (RWOP)** — one pod, read-write
+Access modes (memorise for the exam):
+- `ReadWriteOnce (RWO)` — one node, read-write
+- `ReadOnlyMany (ROX)` — many nodes, read-only
+- `ReadWriteMany (RWX)` — many nodes, read-write (needs NFS/CephFS)
+- `ReadWriteOncePod (RWOP)` — one Pod, read-write (Kubernetes v1.22+)
 
 Reclaim policies:
-- **Retain** — keep data after PVC deletion (manual cleanup)
-- **Delete** — remove the volume (dynamic provisioning default)
-- **Recycle** — deprecated
+- `Retain` — keep data after PVC deletion; admin must clean up manually
+- `Delete` — remove underlying storage (default for dynamic provisioning)
 
 ---
 
-## Step 3 — Create a PVC
+## Step 3 — Create a PersistentVolumeClaim
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > pvc.yaml <<'EOF'
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadata: { name: pvc-host }
+metadata:
+  name: pvc-host
 spec:
-  accessModes: [ReadWriteOnce]
+  accessModes:
+  - ReadWriteOnce
   storageClassName: manual
-  resources: { requests: { storage: 500Mi } }
+  resources:
+    requests:
+      storage: 500Mi
 EOF
+kubectl apply -f pvc.yaml
 kubectl get pvc pvc-host
 kubectl get pv pv-host
 ```
 
-The PVC binds to the PV because both have `storageClassName: manual` and the PV size satisfies the request.
+The PVC binds because: same `storageClassName`, PV capacity ≥ PVC request, and matching access mode. Status changes from `Available` → `Bound`.
 
 ---
 
-## Step 4 — Mount in a Pod
+## Step 4 — Mount the PVC in a Pod
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > pod.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
-metadata: { name: web }
+metadata:
+  name: web
 spec:
   containers:
   - name: nginx
     image: nginx
     volumeMounts:
-    - { name: data, mountPath: /usr/share/nginx/html }
+    - name: data
+      mountPath: /usr/share/nginx/html
   volumes:
   - name: data
-    persistentVolumeClaim: { claimName: pvc-host }
+    persistentVolumeClaim:
+      claimName: pvc-host
 EOF
+kubectl apply -f pod.yaml
 kubectl wait --for=condition=Ready pod/web --timeout=60s
 kubectl exec web -- curl -s localhost
 ```
 
-You should see "hello from host".
+Expected: `hello from host`
 
 ---
 
-## Step 5 — Persistence test
+## Step 5 — Verify persistence across Pod restarts
 
 ```bash
-kubectl exec web -- sh -c 'echo "from pod" > /usr/share/nginx/html/index.html'
+kubectl exec web -- sh -c 'echo "written by pod" > /usr/share/nginx/html/index.html'
 kubectl delete pod web
-kubectl apply -f - <<'EOF'
-apiVersion: v1
-kind: Pod
-metadata: { name: web }
-spec:
-  containers:
-  - name: nginx
-    image: nginx
-    volumeMounts:
-    - { name: data, mountPath: /usr/share/nginx/html }
-  volumes:
-  - name: data
-    persistentVolumeClaim: { claimName: pvc-host }
-EOF
+kubectl apply -f pod.yaml
 kubectl wait --for=condition=Ready pod/web --timeout=60s
 kubectl exec web -- curl -s localhost
 ```
 
-The new pod sees the previous pod's data — PVCs survive pod restarts.
+Expected: `written by pod` — PVCs and their data survive Pod deletion.
 
 ---
 
-## Step 6 — Reclaim behavior
+## Step 6 — Observe Retain reclaim policy
 
 ```bash
 kubectl delete pod web
@@ -126,11 +129,19 @@ kubectl delete pvc pvc-host
 kubectl get pv pv-host
 ```
 
-The PV stays in `Released` (Retain policy). To re-use it, edit and clear `spec.claimRef`, or change reclaim policy to `Delete`.
+With `persistentVolumeReclaimPolicy: Retain`, the PV status becomes `Released` (not deleted). To reuse it, remove `spec.claimRef` from the PV:
+
+```bash
+kubectl patch pv pv-host --type=json \
+  -p='[{"op":"remove","path":"/spec/claimRef"}]'
+kubectl get pv pv-host
+```
+
+Status returns to `Available`.
 
 ---
 
-## Step 7 — Cleanup
+## Step 7 — Clean up
 
 ```bash
 kubectl delete pv pv-host
@@ -139,7 +150,18 @@ sudo rm -rf /mnt/data
 
 ---
 
+## Free online tools
+
+- **PV/PVC docs**: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+- **Access modes reference**: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
+- **killer.sh** — CKA mock exam: https://killer.sh
+- **Kubernetes docs** (allowed in CKA exam): https://kubernetes.io/docs/
+
+---
+
 ## What you learned
-- PV/PVC binding rules: storage class + size + access mode match.
-- The four access modes and three reclaim policies.
-- PVCs outlive pods.
+
+- PV/PVC binding requires matching: `storageClassName`, `accessModes`, and sufficient capacity.
+- Four access modes: RWO, ROX, RWX, RWOP — know when each applies.
+- `Retain` policy keeps data after PVC deletion; admin must re-enable the PV manually.
+- PVCs outlive Pods — data persists across restarts and rescheduling.

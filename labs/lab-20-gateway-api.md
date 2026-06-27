@@ -1,8 +1,14 @@
 # Lab 20 — Gateway API
 
-The Gateway API is Kubernetes' next-generation ingress: role-oriented (GatewayClass / Gateway / HTTPRoute) and CRD-driven. In this lab you install the API plus a controller (nginx-gateway-fabric) and route HTTP traffic with an HTTPRoute.
+The Gateway API is Kubernetes' next-generation traffic routing standard — role-oriented, CRD-driven, and capable of handling HTTP, HTTPS, TCP, TLS, and gRPC. It graduated to GA (v1) in Kubernetes v1.28 and is now tested in CKA 2026. You must know the three core objects: GatewayClass, Gateway, and HTTPRoute.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
+Run on https://killercoda.com/playgrounds/scenario/kubernetes
+
+**Required software (free):**
+- `kubectl` (pre-installed on Killercoda)
+- Gateway API CRDs (installed in Step 1)
+- NGINX Gateway Fabric controller (installed in Step 2)
+- `hashicorp/http-echo` image (pulled automatically)
 
 ---
 
@@ -13,16 +19,17 @@ kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/downloa
 kubectl get crds | grep gateway
 ```
 
-You'll see `gatewayclasses.gateway.networking.k8s.io`, `gateways...`, `httproutes...`, etc.
+You should see: `gatewayclasses`, `gateways`, `httproutes`, `grpcroutes`, `referencegrants`.
 
 ---
 
-## Step 2 — Install a Gateway controller (NGINX Gateway Fabric)
+## Step 2 — Install NGINX Gateway Fabric controller
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.4.0/deploy/crds.yaml
 kubectl apply -f https://raw.githubusercontent.com/nginxinc/nginx-gateway-fabric/v1.4.0/deploy/manifests/nginx-gateway.yaml
-kubectl -n nginx-gateway wait --for=condition=Ready pod -l app.kubernetes.io/name=nginx-gateway-fabric --timeout=180s
+kubectl -n nginx-gateway wait --for=condition=Ready pod \
+  -l app.kubernetes.io/name=nginx-gateway-fabric --timeout=180s
 kubectl get gatewayclass
 ```
 
@@ -31,19 +38,22 @@ kubectl get gatewayclass
 ## Step 3 — Deploy a backend
 
 ```bash
-kubectl create deployment echo --image=hashicorp/http-echo --port=5678 -- -text="gateway works"
+kubectl create deployment echo --image=hashicorp/http-echo --port=5678 \
+  -- -text="gateway works"
 kubectl expose deploy echo --port=80 --target-port=5678
 ```
 
 ---
 
-## Step 4 — Create a Gateway
+## Step 4 — Create a Gateway (infrastructure-owned)
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > gateway.yaml <<'EOF'
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
-metadata: { name: web, namespace: default }
+metadata:
+  name: web
+  namespace: default
 spec:
   gatewayClassName: nginx
   listeners:
@@ -51,68 +61,97 @@ spec:
     port: 80
     protocol: HTTP
     allowedRoutes:
-      namespaces: { from: All }
+      namespaces:
+        from: All
 EOF
-kubectl get gateway
+kubectl apply -f gateway.yaml
+kubectl get gateway web
+kubectl describe gateway web | grep -A5 Status
 ```
+
+The Gateway represents the load balancer infrastructure — owned by cluster admins.
 
 ---
 
-## Step 5 — Create an HTTPRoute
+## Step 5 — Create an HTTPRoute (developer-owned)
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > httproute.yaml <<'EOF'
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
-metadata: { name: echo-route }
+metadata:
+  name: echo-route
 spec:
   parentRefs:
   - name: web
-  hostnames: ["echo.local"]
+  hostnames:
+  - "echo.local"
   rules:
   - matches:
-    - path: { type: PathPrefix, value: / }
+    - path:
+        type: PathPrefix
+        value: /
     backendRefs:
-    - { name: echo, port: 80 }
+    - name: echo
+      port: 80
 EOF
-kubectl get httproute echo-route -o yaml | grep -A3 status
+kubectl apply -f httproute.yaml
+kubectl get httproute echo-route
 ```
+
+The HTTPRoute is developer-owned — separate RBAC from the Gateway. `parentRefs` binds this route to the `web` Gateway.
 
 ---
 
-## Step 6 — Test
+## Step 6 — Test the route
 
 ```bash
-GW_SVC=$(kubectl -n nginx-gateway get svc -o jsonpath='{.items[0].metadata.name}')
-NODEPORT=$(kubectl -n nginx-gateway get svc $GW_SVC -o jsonpath='{.spec.ports[?(@.port==80)].nodePort}')
+NODEPORT=$(kubectl -n nginx-gateway get svc \
+  -o jsonpath='{.items[0].spec.ports[?(@.port==80)].nodePort}')
 curl -s -H "Host: echo.local" http://localhost:$NODEPORT
 ```
 
----
-
-## Step 7 — Compare with Ingress
-
-| Concept             | Ingress              | Gateway API             |
-|---------------------|----------------------|-------------------------|
-| Controller selector | `ingressClassName`   | `GatewayClass`          |
-| Cluster object      | `Ingress` (mixed)    | `Gateway` (infra-owned) |
-| Route object        | (inside `Ingress`)   | `HTTPRoute` (dev-owned) |
-| Protocols           | HTTP/S only          | HTTP, HTTPS, TCP, TLS, gRPC, UDP |
-| Cross-namespace     | No                   | Yes (`allowedRoutes`)   |
+Expected: `gateway works`
 
 ---
 
-## Step 8 — Cleanup
+## Step 7 — Gateway API vs Ingress comparison
+
+| Concept | Ingress | Gateway API |
+|---------|---------|-------------|
+| Controller selector | `ingressClassName` | `GatewayClass` |
+| Infrastructure object | `Ingress` (mixed) | `Gateway` (admin-owned) |
+| Route object | (inside Ingress) | `HTTPRoute` (dev-owned) |
+| Protocols | HTTP/HTTPS only | HTTP, HTTPS, TCP, TLS, gRPC, UDP |
+| Cross-namespace routes | No | Yes (`allowedRoutes`) |
+| Role separation | None | GatewayClass → Gateway → Route |
+
+---
+
+## Step 8 — Clean up
 
 ```bash
 kubectl delete httproute echo-route
 kubectl delete gateway web
-kubectl delete svc echo && kubectl delete deploy echo
+kubectl delete svc echo
+kubectl delete deploy echo
 ```
 
 ---
 
+## Free online tools
+
+- **Gateway API docs**: https://gateway-api.sigs.k8s.io/
+- **Gateway API releases**: https://github.com/kubernetes-sigs/gateway-api/releases
+- **NGINX Gateway Fabric**: https://docs.nginx.com/nginx-gateway-fabric/
+- **killer.sh** — CKA mock exam: https://killer.sh
+- **Kubernetes docs** (allowed in CKA exam): https://kubernetes.io/docs/
+
+---
+
 ## What you learned
-- The three Gateway API objects: GatewayClass, Gateway, HTTPRoute.
-- Role separation: infra installs Gateway, dev creates HTTPRoute.
-- How Gateway API generalizes beyond HTTP.
+
+- Three Gateway API objects: `GatewayClass` (infra type), `Gateway` (admin), `HTTPRoute` (developer).
+- `parentRefs` in HTTPRoute binds the route to a specific Gateway.
+- Gateway API supports more protocols than Ingress and enables true role separation.
+- `allowedRoutes.namespaces` controls which namespaces can attach routes to a Gateway.

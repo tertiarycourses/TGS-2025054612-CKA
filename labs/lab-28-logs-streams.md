@@ -1,100 +1,147 @@
 # Lab 28 — Application Logs and Container Streams
 
-Containers emit logs to `stdout` and `stderr`. The kubelet redirects these to `/var/log/pods/...`, and `kubectl logs` reads them back. In this lab you inspect single-container, multi-container, and previous-instance logs, then look at the files on disk.
+Containers emit logs to stdout/stderr. The kubelet writes them to `/var/log/pods/` and `kubectl logs` reads them back. CKA 2026 tests reading logs from crashed containers, multi-container Pods, raw log files on disk, and using `stern` for multi-Pod tailing.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
+Run on https://killercoda.com/playgrounds/scenario/kubernetes
+
+**Required software (free):**
+- `kubectl` (pre-installed on Killercoda)
+- `busybox` image (pre-pulled on Killercoda)
+- `stern` (installed in Step 5 — one command)
 
 ---
 
-## Step 1 — Single-container logs
+## Step 1 — Set exam aliases
 
 ```bash
-kubectl create deployment chatty --image=busybox \
-  -- /bin/sh -c "i=0; while true; do echo line-\$i; i=\$((i+1)); sleep 1; done"
-kubectl wait --for=condition=Available deploy/chatty --timeout=60s
-POD=$(kubectl get pod -l app=chatty -o name | head -1)
-kubectl logs $POD --tail=10
-kubectl logs $POD -f &
+alias k=kubectl
+```
+
+---
+
+## Step 2 — Single-container logs
+
+```bash
+k run noisy --image=busybox --restart=Never -- sh -c \
+  'i=0; while true; do echo "line $i at $(date)"; i=$((i+1)); sleep 1; done'
+sleep 5
+k logs noisy --tail=5
+k logs noisy --tail=10 --timestamps=true
+```
+
+`--timestamps=true` adds RFC3339 timestamps to every line — useful for correlating events.
+
+---
+
+## Step 3 — Follow logs in real time
+
+```bash
+k logs -f noisy &
 sleep 5
 kill %1
 ```
 
+`-f` streams new log lines live — equivalent to `tail -f`.
+
 ---
 
-## Step 2 — Previous instance after a crash
+## Step 4 — Retrieve logs from a crashed container
 
 ```bash
-kubectl run crashy --image=busybox -- /bin/sh -c "echo running; sleep 5; exit 1"
+k run crasher --image=busybox --restart=Always -- sh -c \
+  'echo "starting up"; sleep 2; echo "about to crash"; exit 1'
 sleep 30
-kubectl get pod crashy
-kubectl logs crashy --previous
+k get pod crasher
+k logs crasher --previous | head -5
+k describe pod crasher | grep -A4 "Last State"
 ```
 
-`--previous` (or `-p`) reads the last terminated container's log — invaluable when a CrashLoop hides the actual cause.
+`--previous` (or `-p`) retrieves logs from the last terminated container instance. Essential for diagnosing CrashLoopBackOff.
 
 ---
 
-## Step 3 — Multi-container pod
+## Step 5 — Multi-container Pod logs
 
 ```bash
-cat <<'EOF' | kubectl apply -f -
+cat > multi.yaml <<'EOF'
 apiVersion: v1
 kind: Pod
-metadata: { name: multi }
+metadata:
+  name: multi
 spec:
   containers:
   - name: writer
     image: busybox
-    command: ["sh","-c","i=0;while true;do echo writer-$i;i=$((i+1));sleep 1;done"]
+    command: ["sh", "-c", "while true; do echo WRITER $(date); sleep 1; done"]
   - name: reader
     image: busybox
-    command: ["sh","-c","i=0;while true;do echo reader-$i;i=$((i+1));sleep 2;done"]
+    command: ["sh", "-c", "while true; do echo READER $(date); sleep 2; done"]
 EOF
-kubectl wait --for=condition=Ready pod/multi --timeout=60s
+k apply -f multi.yaml
+sleep 5
+k logs multi -c writer | head -3
+k logs multi -c reader | head -3
+k logs multi --all-containers=true --prefix=true | head -8
+```
 
-kubectl logs multi              # error: needs -c
-kubectl logs multi -c writer --tail=5
-kubectl logs multi -c reader --tail=5
-kubectl logs multi --all-containers --prefix --tail=10
+`--prefix=true` adds `[pod/container]` labels to each line when reading multiple containers.
+
+---
+
+## Step 6 — Raw log files on disk (node-level access)
+
+```bash
+POD_UID=$(k get pod noisy -o jsonpath='{.metadata.uid}')
+sudo ls /var/log/pods/default_noisy_${POD_UID}/noisy/
+sudo tail -3 /var/log/pods/default_noisy_${POD_UID}/noisy/0.log
+```
+
+Raw logs are JSON-formatted with `time`, `stream`, and `log` fields. This is how monitoring agents (Fluent Bit, Filebeat) consume logs directly from the node.
+
+---
+
+## Step 7 — Install stern for multi-Pod log tailing
+
+```bash
+curl -sL https://github.com/stern/stern/releases/latest/download/stern_linux_amd64.tar.gz \
+  | tar xz stern && sudo mv stern /usr/local/bin/
+stern --version
+```
+
+```bash
+k create deployment fleet --image=busybox --replicas=3 \
+  -- sh -c 'while true; do echo $(hostname); sleep 1; done'
+sleep 5
+stern fleet --tail=3 --color=never
+```
+
+`stern` tails all Pods matching a name prefix — one command instead of three `kubectl logs` calls.
+
+---
+
+## Step 8 — Clean up
+
+```bash
+k delete pod noisy crasher multi --force --grace-period=0
+k delete deployment fleet
 ```
 
 ---
 
-## Step 4 — Logs from the host
+## Free online tools
 
-```bash
-ls /var/log/pods/
-ls /var/log/pods/default_multi_*/writer/
-sudo tail /var/log/pods/default_multi_*/writer/0.log
-```
-
-Each line is JSON: timestamp, stream (`stdout`/`stderr`), and the raw output.
-
----
-
-## Step 5 — Multi-pod tail with stern (optional)
-
-```bash
-GO111MODULE=on go install github.com/stern/stern@latest 2>/dev/null || \
-  curl -L https://github.com/stern/stern/releases/download/v1.30.0/stern_1.30.0_linux_amd64.tar.gz \
-    | sudo tar -xz -C /usr/local/bin stern
-stern chatty --tail 5
-```
-
-Ctrl-C to stop. `stern` follows logs across pods, containers, and namespaces in one stream.
-
----
-
-## Step 6 — Cleanup
-
-```bash
-kubectl delete deploy chatty
-kubectl delete pod crashy multi --ignore-not-found
-```
+- **kubectl logs reference**: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/
+- **Logging architecture**: https://kubernetes.io/docs/concepts/cluster-administration/logging/
+- **stern**: https://github.com/stern/stern
+- **killer.sh** — CKA mock exam: https://killer.sh
+- **Kubernetes docs** (allowed in CKA exam): https://kubernetes.io/docs/
 
 ---
 
 ## What you learned
-- `kubectl logs`, `-f`, `-p`, `-c`, `--all-containers`.
-- The kubelet log path `/var/log/pods/<ns>_<pod>_<uid>/<container>/0.log`.
-- `stern` for multi-pod tails.
+
+- `kubectl logs --tail=N --timestamps=true` for recent, timestamped logs.
+- `--previous` retrieves logs from the last crashed container — primary CrashLoopBackOff tool.
+- `-c <container>` and `--all-containers=true --prefix=true` for multi-container Pods.
+- Raw logs live at `/var/log/pods/<namespace>_<pod>_<uid>/<container>/0.log` in JSON format.
+- `stern` tails multiple Pods simultaneously by name prefix.
