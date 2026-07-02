@@ -1,11 +1,16 @@
 # Lab 1 — kubeadm Prerequisites and Container Runtime
 
-In this lab you will prepare two clean Ubuntu nodes for a Kubernetes cluster install. You will load the required kernel modules, set the right sysctls, install `containerd` as the Container Runtime Interface (CRI), and install the `kubeadm`, `kubelet`, and `kubectl` binaries from the official Kubernetes apt repository.
+**Folder:** `labs/lab-01-kubeadm-prereqs/`  ·  **Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com) (free, no signup, 2 nodes)
 
-Run this lab on the **kubeadm playground** (two Ubuntu VMs already wired together):
-https://killercoda.com/playgrounds/scenario/kubeadm
+> **Why not KillerCoda?** KillerCoda's kubeadm playground (`/playgrounds/scenario/kubeadm`) is currently unavailable. Use **Play with Kubernetes** — it gives you the same two Ubuntu nodes and requires no account. Alternative: [GitHub Codespaces](https://github.com/features/codespaces) (free quota).
 
-The playground gives you `controlplane` and `node01` shells. Repeat every step on **both** nodes unless stated otherwise.
+## Goal
+
+Prepare two clean Ubuntu nodes for a Kubernetes cluster install: load the required kernel modules, apply the right sysctls, install `containerd` as the Container Runtime Interface (CRI), and install the `kubeadm`, `kubelet`, and `kubectl` binaries from the official Kubernetes apt repository.
+
+## What you'll build
+
+A fully prepped two-node environment (controlplane + node01) ready for `kubeadm init` in Lab 2. Run every step on **both** nodes unless stated otherwise.
 
 ---
 
@@ -99,7 +104,4 @@ You should see kubeadm v1.31.x, containerd active, and crictl reporting the runt
 
 ---
 
-## What you learned
-- The exact kernel modules and sysctls kubeadm needs.
-- Why `SystemdCgroup=true` matters for containerd.
-- How to install the pinned Kubernetes apt packages from `pkgs.k8s.io`.
+> ✅ **Test it:** Both nodes show `kubeadm version` returning v1.31.x, `containerd` is active, and `kubectl version --client` works — the cluster is ready for `kubeadm init` in Lab 2.
