@@ -5,16 +5,43 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Check existing storage classes", "text": "step1/text.md"},
-      {"title": "Step 2: Install local-path-provisioner", "text": "step2/text.md"},
-      {"title": "Step 3: Mark it as default", "text": "step3/text.md"},
-      {"title": "Step 4: Create a PVC without specifying a class", "text": "step4/text.md"},
-      {"title": "Step 5: Mount it in a StatefulSet", "text": "step5/text.md"},
-      {"title": "Step 6: Verify the volume lifecycle", "text": "step6/text.md"},
-      {"title": "Step 7: Cleanup", "text": "step7/text.md"}
+      {
+        "title": "Step 1: Check existing storage classes",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Install local-path-provisioner",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Mark it as default",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Create a PVC without specifying a class",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Mount it in a StatefulSet",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Verify the volume lifecycle",
+        "text": "step6/text.md"
+      },
+      {
+        "title": "Step 7: Cleanup",
+        "text": "step7/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

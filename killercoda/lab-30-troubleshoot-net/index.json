@@ -5,15 +5,39 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Build a normal service", "text": "step1/text.md"},
-      {"title": "Step 2: Fault 1 — selector mismatch", "text": "step2/text.md"},
-      {"title": "Step 3: Fault 2 — targetPort mismatch", "text": "step3/text.md"},
-      {"title": "Step 4: Fault 3 — CoreDNS or resolv.conf", "text": "step4/text.md"},
-      {"title": "Step 5: The triage chain", "text": "step5/text.md"},
-      {"title": "Step 6: Cleanup", "text": "step6/text.md"}
+      {
+        "title": "Step 1: Build a normal service",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Fault 1 — selector mismatch",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Fault 2 — targetPort mismatch",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Fault 3 — CoreDNS or resolv.conf",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: The triage chain",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Cleanup",
+        "text": "step6/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

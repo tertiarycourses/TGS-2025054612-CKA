@@ -5,15 +5,39 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Deploy a workload", "text": "step1/text.md"},
-      {"title": "Step 2: ClusterIP (default)", "text": "step2/text.md"},
-      {"title": "Step 3: NodePort", "text": "step3/text.md"},
-      {"title": "Step 4: LoadBalancer", "text": "step4/text.md"},
-      {"title": "Step 5: Inspect Endpoints & EndpointSlices", "text": "step5/text.md"},
-      {"title": "Step 6: Cleanup", "text": "step6/text.md"}
+      {
+        "title": "Step 1: Deploy a workload",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: ClusterIP (default)",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: NodePort",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: LoadBalancer",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Inspect Endpoints & EndpointSlices",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Cleanup",
+        "text": "step6/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

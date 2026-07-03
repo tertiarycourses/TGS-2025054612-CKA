@@ -5,16 +5,43 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Install metrics-server", "text": "step1/text.md"},
-      {"title": "Step 2: Deploy a CPU-bound workload", "text": "step2/text.md"},
-      {"title": "Step 3: Create the HPA", "text": "step3/text.md"},
-      {"title": "Step 4: Generate load", "text": "step4/text.md"},
-      {"title": "Step 5: Stop the load and watch scale-down", "text": "step5/text.md"},
-      {"title": "Step 6: HPA v2 with multiple metrics (reference)", "text": "step6/text.md"},
-      {"title": "Step 7: Cleanup", "text": "step7/text.md"}
+      {
+        "title": "Step 1: Install metrics-server",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Deploy a CPU-bound workload",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Create the HPA",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Generate load",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Stop the load and watch scale-down",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: HPA v2 with multiple metrics (reference)",
+        "text": "step6/text.md"
+      },
+      {
+        "title": "Step 7: Cleanup",
+        "text": "step7/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

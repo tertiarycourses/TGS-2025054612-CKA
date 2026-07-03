@@ -5,15 +5,39 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Create from literals", "text": "step1/text.md"},
-      {"title": "Step 2: Create from a file", "text": "step2/text.md"},
-      {"title": "Step 3: Consume as environment variables", "text": "step3/text.md"},
-      {"title": "Step 4: Consume as a mounted file", "text": "step4/text.md"},
-      {"title": "Step 5: Update propagation", "text": "step5/text.md"},
-      {"title": "Step 6: Cleanup", "text": "step6/text.md"}
+      {
+        "title": "Step 1: Create from literals",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Create from a file",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Consume as environment variables",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Consume as a mounted file",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Update propagation",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Cleanup",
+        "text": "step6/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

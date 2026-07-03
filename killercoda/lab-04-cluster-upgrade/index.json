@@ -5,15 +5,40 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Check current versions", "text": "step1/text.md"},
-      {"title": "Step 2: Upgrade the kubeadm binary on the control plane", "text": "step2/text.md"},
-      {"title": "Step 3: Plan and apply on the control plane", "text": "step3/text.md"},
-      {"title": "Step 4: Drain the control plane", "text": "step4/text.md"},
-      {"title": "Step 5: Upgrade kubelet and kubectl on the control plane", "text": "step5/text.md"},
-      {"title": "Step 6: Repeat on the worker", "text": "step6/text.md"}
+      {
+        "title": "Step 1: Check current versions",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Upgrade the kubeadm binary on the control plane",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Plan and apply on the control plane",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Drain the control plane",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Upgrade kubelet and kubectl on the control plane",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Repeat on the worker",
+        "text": "step6/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "ubuntu"}
+  "backend": {
+    "imageid": "ubuntu"
+  }
 }

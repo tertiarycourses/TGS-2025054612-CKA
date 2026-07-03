@@ -5,17 +5,47 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Install the Gateway API CRDs", "text": "step1/text.md"},
-      {"title": "Step 2: Install a Gateway controller (NGINX Gateway Fabric)", "text": "step2/text.md"},
-      {"title": "Step 3: Deploy a backend", "text": "step3/text.md"},
-      {"title": "Step 4: Create a Gateway", "text": "step4/text.md"},
-      {"title": "Step 5: Create an HTTPRoute", "text": "step5/text.md"},
-      {"title": "Step 6: Test", "text": "step6/text.md"},
-      {"title": "Step 7: Compare with Ingress", "text": "step7/text.md"},
-      {"title": "Step 8: Cleanup", "text": "step8/text.md"}
+      {
+        "title": "Step 1: Install the Gateway API CRDs",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Install a Gateway controller (NGINX Gateway Fabric)",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Deploy a backend",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Create a Gateway",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Create an HTTPRoute",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Test",
+        "text": "step6/text.md"
+      },
+      {
+        "title": "Step 7: Compare with Ingress",
+        "text": "step7/text.md"
+      },
+      {
+        "title": "Step 8: Cleanup",
+        "text": "step8/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

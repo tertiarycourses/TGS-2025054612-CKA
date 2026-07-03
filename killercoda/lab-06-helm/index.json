@@ -5,16 +5,43 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Install the Helm CLI", "text": "step1/text.md"},
-      {"title": "Step 2: Add a chart repository", "text": "step2/text.md"},
-      {"title": "Step 3: Install a chart", "text": "step3/text.md"},
-      {"title": "Step 4: Override values with a file", "text": "step4/text.md"},
-      {"title": "Step 5: Roll back", "text": "step5/text.md"},
-      {"title": "Step 6: Render without installing", "text": "step6/text.md"},
-      {"title": "Step 7: Uninstall", "text": "step7/text.md"}
+      {
+        "title": "Step 1: Install the Helm CLI",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Add a chart repository",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Install a chart",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Override values with a file",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Roll back",
+        "text": "step5/text.md"
+      },
+      {
+        "title": "Step 6: Render without installing",
+        "text": "step6/text.md"
+      },
+      {
+        "title": "Step 7: Uninstall",
+        "text": "step7/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

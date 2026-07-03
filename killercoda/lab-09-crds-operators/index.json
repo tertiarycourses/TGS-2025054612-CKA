@@ -5,14 +5,35 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: Define a CRD", "text": "step1/text.md"},
-      {"title": "Step 2: Use the new resource", "text": "step2/text.md"},
-      {"title": "Step 3: Install a real operator (cert-manager)", "text": "step3/text.md"},
-      {"title": "Step 4: Create a self-signed Issuer + Certificate", "text": "step4/text.md"},
-      {"title": "Step 5: Clean up", "text": "step5/text.md"}
+      {
+        "title": "Step 1: Define a CRD",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: Use the new resource",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: Install a real operator (cert-manager)",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Create a self-signed Issuer + Certificate",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Clean up",
+        "text": "step5/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }

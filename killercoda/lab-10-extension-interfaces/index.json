@@ -5,14 +5,35 @@
   "time": "30",
   "details": {
     "steps": [
-      {"title": "Step 1: CRI — talk to the runtime directly", "text": "step1/text.md"},
-      {"title": "Step 2: CNI — where the network plugin lives", "text": "step2/text.md"},
-      {"title": "Step 3: CSI — list installed drivers", "text": "step3/text.md"},
-      {"title": "Step 4: Trace a pod through all three interfaces", "text": "step4/text.md"},
-      {"title": "Step 5: Read the CRI socket type from the kubelet config", "text": "step5/text.md"}
+      {
+        "title": "Step 1: CRI — talk to the runtime directly",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Step 2: CNI — where the network plugin lives",
+        "text": "step2/text.md"
+      },
+      {
+        "title": "Step 3: CSI — list installed drivers",
+        "text": "step3/text.md"
+      },
+      {
+        "title": "Step 4: Trace a pod through all three interfaces",
+        "text": "step4/text.md"
+      },
+      {
+        "title": "Step 5: Read the CRI socket type from the kubelet config",
+        "text": "step5/text.md"
+      }
     ],
-    "intro": {"text": "intro.md"},
-    "finish": {"text": "finish.md"}
+    "intro": {
+      "text": "intro.md"
+    },
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+  "backend": {
+    "imageid": "kubernetes"
+  }
 }
