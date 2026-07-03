@@ -1,0 +1,20 @@
+{
+  "title": "Lab 26 — Troubleshoot Cluster Components",
+  "description": "When the control plane misbehaves, you need to know which static pod, systemd service, or socket to inspect.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Map components to their on-disk source", "text": "step1/text.md"},
+      {"title": "Step 2: Break the API server", "text": "step2/text.md"},
+      {"title": "Step 3: Diagnose", "text": "step3/text.md"},
+      {"title": "Step 4: Fix", "text": "step4/text.md"},
+      {"title": "Step 5: etcd health", "text": "step5/text.md"},
+      {"title": "Step 6: Controller-manager and scheduler", "text": "step6/text.md"},
+      {"title": "Step 7: Cheat sheet", "text": "step7/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}

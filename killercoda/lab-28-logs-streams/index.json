@@ -1,0 +1,19 @@
+{
+  "title": "Lab 28 — Application Logs and Container Streams",
+  "description": "Containers emit logs to stdout and stderr — the kubelet redirects these to /var/log/pods/... and kubectl logs reads them back.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Single-container logs", "text": "step1/text.md"},
+      {"title": "Step 2: Previous instance after a crash", "text": "step2/text.md"},
+      {"title": "Step 3: Multi-container pod", "text": "step3/text.md"},
+      {"title": "Step 4: Logs from the host", "text": "step4/text.md"},
+      {"title": "Step 5: Multi-pod tail with stern (optional)", "text": "step5/text.md"},
+      {"title": "Step 6: Cleanup", "text": "step6/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}

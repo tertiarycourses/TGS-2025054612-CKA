@@ -1,0 +1,20 @@
+{
+  "title": "Lab 17 — Pod-to-Pod Connectivity",
+  "description": "Every pod gets a routable IP and can reach every other pod without NAT.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Launch two debug pods", "text": "step1/text.md"},
+      {"title": "Step 2: Ping by pod IP", "text": "step2/text.md"},
+      {"title": "Step 3: Curl the nginx pod directly", "text": "step3/text.md"},
+      {"title": "Step 4: DNS-based discovery", "text": "step4/text.md"},
+      {"title": "Step 5: Inspect routing inside the pod", "text": "step5/text.md"},
+      {"title": "Step 6: Traceroute across nodes (if multi-node)", "text": "step6/text.md"},
+      {"title": "Step 7: Cleanup", "text": "step7/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}

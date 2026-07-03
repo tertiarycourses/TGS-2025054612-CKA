@@ -1,0 +1,20 @@
+{
+  "title": "Lab 21 — Network Policies",
+  "description": "NetworkPolicy is the Kubernetes firewall for pod-to-pod traffic.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Create a test namespace and pods", "text": "step1/text.md"},
+      {"title": "Step 2: Baseline: everything allowed", "text": "step2/text.md"},
+      {"title": "Step 3: Default-deny ingress", "text": "step3/text.md"},
+      {"title": "Step 4: Allow only the trusted client", "text": "step4/text.md"},
+      {"title": "Step 5: Allow from another namespace", "text": "step5/text.md"},
+      {"title": "Step 6: Egress policy", "text": "step6/text.md"},
+      {"title": "Step 7: Cleanup", "text": "step7/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}

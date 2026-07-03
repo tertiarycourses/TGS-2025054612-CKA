@@ -1,0 +1,18 @@
+{
+  "title": "Lab 5 — Highly-Available Control Plane",
+  "description": "Study the stacked-etcd HA topology, configure HAProxy and keepalived for a virtual IP, and run kubeadm init with --control-plane-endpoint.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: HA topology overview", "text": "step1/text.md"},
+      {"title": "Step 2: Install HAProxy + keepalived for the VIP", "text": "step2/text.md"},
+      {"title": "Step 3: kubeadm init with control-plane endpoint", "text": "step3/text.md"},
+      {"title": "Step 4: Join additional control planes (reference)", "text": "step4/text.md"},
+      {"title": "Step 5: Verify quorum", "text": "step5/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "ubuntu"}
+}

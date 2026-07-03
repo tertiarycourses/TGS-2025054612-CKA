@@ -1,0 +1,20 @@
+{
+  "title": "Lab 27 — Troubleshoot Nodes",
+  "description": "Nodes go NotReady when the kubelet can't report healthy — in this lab you simulate three common node-level failures and recover from each.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Baseline", "text": "step1/text.md"},
+      {"title": "Step 2: Stop the kubelet", "text": "step2/text.md"},
+      {"title": "Step 3: Break the kubelet config", "text": "step3/text.md"},
+      {"title": "Step 4: Cordon and drain", "text": "step4/text.md"},
+      {"title": "Step 5: Disk pressure simulation", "text": "step5/text.md"},
+      {"title": "Step 6: Container runtime down", "text": "step6/text.md"},
+      {"title": "Step 7: Triage checklist", "text": "step7/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}

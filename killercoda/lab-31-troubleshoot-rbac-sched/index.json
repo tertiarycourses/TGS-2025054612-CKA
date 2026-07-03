@@ -1,0 +1,21 @@
+{
+  "title": "Lab 31 — Troubleshoot RBAC and Scheduling Failures",
+  "description": "Two high-frequency exam scenarios: a ServiceAccount that can't do what it needs, and a Pod that stays Pending because the scheduler refuses to place it.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Create a broken RBAC setup", "text": "step1/text.md"},
+      {"title": "Step 2: Diagnose with auth can-i", "text": "step2/text.md"},
+      {"title": "Step 3: Grant minimal access", "text": "step3/text.md"},
+      {"title": "Step 4: Wrong scope (common trap)", "text": "step4/text.md"},
+      {"title": "Step 5: Pending due to resources", "text": "step5/text.md"},
+      {"title": "Step 6: Pending due to taint", "text": "step6/text.md"},
+      {"title": "Step 7: Pending due to nodeSelector", "text": "step7/text.md"},
+      {"title": "Step 8: Cleanup", "text": "step8/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}
