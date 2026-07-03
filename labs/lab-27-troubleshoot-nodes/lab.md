@@ -2,9 +2,7 @@
 
 Nodes go `NotReady` when the kubelet can't report healthy. In this lab you simulate three common node-level failures and recover from each.
 
-Use the **kubeadm playground** (so you have shell access to the nodes):
-https://killercoda.com/playgrounds/scenario/kubeadm
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-27-troubleshoot-nodes)
 ---
 
 ## Step 1 — Baseline

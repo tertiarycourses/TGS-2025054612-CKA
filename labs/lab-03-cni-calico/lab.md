@@ -4,6 +4,8 @@ A fresh kubeadm cluster has no pod network. In this lab you install Calico, watc
 
 Continue on the **kubeadm playground** from Lab 2.
 
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-03-cni-calico)
+
 ---
 
 ## Step 1 — Apply the Calico manifest

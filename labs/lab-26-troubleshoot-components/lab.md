@@ -2,8 +2,9 @@
 
 When the control plane misbehaves, you need to know which static pod, systemd service, or socket to inspect. In this lab you break the API server's static-pod manifest, observe the symptoms, and recover.
 
-Use the **kubeadm playground** (a real kubeadm-installed cluster):
-https://killercoda.com/playgrounds/scenario/kubeadm — complete Labs 1–3 first, then continue here.
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-26-troubleshoot-components)
+
+https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-26-troubleshoot-components — complete Labs 1–3 first, then continue here.
 
 ---
 

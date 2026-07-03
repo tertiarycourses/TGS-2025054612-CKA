@@ -2,7 +2,9 @@
 
 In this lab you upgrade a Kubernetes cluster from v1.30 to v1.31 using `kubeadm`. You will follow the recommended order: control plane first, then workers, draining each node before the kubelet restart.
 
-Use the **kubeadm playground** with a pre-installed v1.30 cluster. If you only have v1.31 available, demonstrate the patch-upgrade path (e.g. v1.31.0 → v1.31.1) — the commands are identical.
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-04-cluster-upgrade)
+
+Use a kubeadm cluster with a pre-installed v1.30 cluster. If you only have v1.31 available, demonstrate the patch-upgrade path (e.g. v1.31.0 → v1.31.1) — the commands are identical.
 
 ---
 

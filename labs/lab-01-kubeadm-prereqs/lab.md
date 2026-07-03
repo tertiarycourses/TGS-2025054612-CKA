@@ -1,8 +1,8 @@
 # Lab 1 — kubeadm Prerequisites and Container Runtime
 
-**Folder:** `labs/lab-01-kubeadm-prereqs/`  ·  **Lab environment:** [KillerCoda Ubuntu Playground](https://killercoda.com/playgrounds/scenario/ubuntu)
+**Folder:** `labs/lab-01-kubeadm-prereqs/`  ·  **Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-01-kubeadm-prereqs)
 
-> **Two-node setup:** Open **two browser tabs** of the KillerCoda Ubuntu Playground — Tab 1 is your **controlplane**, Tab 2 is your **node01**. Run every step on **both tabs** unless stated otherwise.
+> **Two-node setup:** Open **two browser tabs** of the KillerCoda scenario — Tab 1 is your **controlplane**, Tab 2 is your **node01**. Run every step on **both tabs** unless stated otherwise.
 
 ## Goal
 

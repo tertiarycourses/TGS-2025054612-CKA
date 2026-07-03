@@ -2,8 +2,7 @@
 
 An Ingress controller is a reverse proxy (typically nginx, Traefik, or Envoy) running inside the cluster that routes external HTTP/HTTPS based on `Ingress` objects. In this lab you install ingress-nginx and route two hostnames to two Services.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-19-ingress)
 ---
 
 ## Step 1 — Install ingress-nginx

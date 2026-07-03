@@ -2,8 +2,7 @@
 
 A PersistentVolume (PV) is a piece of storage in the cluster. A PersistentVolumeClaim (PVC) is a pod's request for storage. In this lab you statically provision a `hostPath` PV, claim it, mount it, and explore access modes and reclaim policies.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-23-pv-pvc)
 ---
 
 ## Step 1 — Prepare a host directory

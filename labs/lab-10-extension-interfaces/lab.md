@@ -7,8 +7,7 @@ Kubernetes plugs into the host via three standard interfaces:
 
 In this lab you inspect each one on a running cluster.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-10-extension-interfaces)
 ---
 
 ## Step 1 — CRI: talk to the runtime directly

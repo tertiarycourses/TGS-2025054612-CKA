@@ -2,8 +2,7 @@
 
 The Horizontal Pod Autoscaler (HPA) scales a Deployment up and down based on observed CPU/memory or custom metrics. In this lab you install `metrics-server`, deploy a CPU-burning app, attach an HPA, then stress it.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-14-hpa)
 ---
 
 ## Step 1 — Install metrics-server

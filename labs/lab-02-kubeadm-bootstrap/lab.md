@@ -2,8 +2,7 @@
 
 In this lab you will turn the two prepared nodes from Lab 1 into a working Kubernetes cluster. You will run `kubeadm init` on the control plane, copy the admin kubeconfig, then join the worker with the bootstrap token.
 
-Continue on the **kubeadm playground**: https://killercoda.com/playgrounds/scenario/kubeadm
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-02-kubeadm-bootstrap)
 ---
 
 ## Step 1 — Initialize the control plane

@@ -2,8 +2,7 @@
 
 In this lab you control where pods land using resource requests, nodeSelector, node affinity, and taints/tolerations.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-16-scheduling)
 ---
 
 ## Step 1 — Label your nodes

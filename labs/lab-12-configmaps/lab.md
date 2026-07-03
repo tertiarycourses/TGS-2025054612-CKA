@@ -2,8 +2,7 @@
 
 ConfigMaps hold non-secret key/value configuration. In this lab you create a ConfigMap three ways (literal, file, manifest) and consume it in a pod as environment variables and as a mounted file.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-12-configmaps)
 ---
 
 ## Step 1 — Create from literals

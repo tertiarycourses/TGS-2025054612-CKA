@@ -2,8 +2,7 @@
 
 Containers emit logs to `stdout` and `stderr`. The kubelet redirects these to `/var/log/pods/...`, and `kubectl logs` reads them back. In this lab you inspect single-container, multi-container, and previous-instance logs, then look at the files on disk.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-28-logs-streams)
 ---
 
 ## Step 1 — Single-container logs

@@ -2,8 +2,7 @@
 
 Two more high-frequency exam scenarios: a ServiceAccount that can't do what it needs, and a Pod that stays `Pending` because the scheduler refuses to place it.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-31-troubleshoot-rbac-sched)
 ---
 
 ## Part A — RBAC

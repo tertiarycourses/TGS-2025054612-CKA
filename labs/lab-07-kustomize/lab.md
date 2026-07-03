@@ -2,8 +2,7 @@
 
 Kustomize is the template-free overlay tool baked into `kubectl` (`kubectl apply -k`). In this lab you build a base nginx Deployment and two overlays (`dev`, `prod`) that change the replica count, image tag, and namespace without copying YAML.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-07-kustomize)
 ---
 
 ## Step 1 — Create the base

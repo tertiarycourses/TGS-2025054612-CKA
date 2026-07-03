@@ -2,8 +2,7 @@
 
 In this lab you study the architecture of a Highly-Available (HA) Kubernetes control plane and reproduce the key configuration pieces. You will not stand up three real control-plane VMs (the free Killercoda playground gives you two nodes), but you will configure the load-balancer front end and run a `kubeadm init` with the `--control-plane-endpoint` flag that an HA cluster requires.
 
-Use the **kubeadm playground**: https://killercoda.com/playgrounds/scenario/kubeadm
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-05-ha-control-plane)
 ---
 
 ## Step 1 — HA topology overview

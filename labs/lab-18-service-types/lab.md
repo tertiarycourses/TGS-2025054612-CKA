@@ -2,8 +2,7 @@
 
 In this lab you expose the same Deployment with each of the three primary Service types and inspect the resulting Endpoints.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-18-service-types)
 ---
 
 ## Step 1 — Deploy a workload

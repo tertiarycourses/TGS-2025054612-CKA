@@ -2,8 +2,7 @@
 
 A CustomResourceDefinition (CRD) extends the Kubernetes API with new object kinds. An Operator is a controller that watches a CRD and reconciles real-world state. In this lab you define a tiny CRD by hand, then install **cert-manager** as a real-world operator to see the pattern in production.
 
-Use the **Kubernetes playground**: https://killercoda.com/playgrounds/scenario/kubernetes
-
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-09-crds-operators)
 ---
 
 ## Step 1 — Define a CRD
