@@ -1,0 +1,19 @@
+{
+  "title": "Lab 15 — Self-Healing Primitives",
+  "description": "Kubernetes self-healing relies on four pillars: liveness/readiness/startup probes, ReplicaSets, DaemonSets, and StatefulSets.",
+  "difficulty": "intermediate",
+  "time": "30",
+  "details": {
+    "steps": [
+      {"title": "Step 1: Liveness probe", "text": "step1/text.md"},
+      {"title": "Step 2: Readiness probe", "text": "step2/text.md"},
+      {"title": "Step 3: ReplicaSet self-heal", "text": "step3/text.md"},
+      {"title": "Step 4: DaemonSet (one pod per node)", "text": "step4/text.md"},
+      {"title": "Step 5: StatefulSet (stable identity + storage)", "text": "step5/text.md"},
+      {"title": "Step 6: Cleanup", "text": "step6/text.md"}
+    ],
+    "intro": {"text": "intro.md"},
+    "finish": {"text": "finish.md"}
+  },
+  "backend": {"imageid": "kubernetes-kubeadm-2nodes"}
+}
