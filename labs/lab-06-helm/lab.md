@@ -2,7 +2,7 @@
 
 Helm is the package manager for Kubernetes. In this lab you install Helm, add a chart repository, deploy nginx via the Bitnami chart, override values, and roll back.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — Install the Helm CLI

@@ -2,7 +2,7 @@
 
 In this lab you create a ServiceAccount for a "read-only viewer" persona, define a namespaced `Role` that allows only `get/list/watch` on Pods, bind the role to the SA, and prove that the SA can read but cannot write.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — Create a namespace and ServiceAccount

@@ -2,7 +2,7 @@
 
 Service connectivity bugs are the single biggest category of CKA exam questions. In this lab you walk the chain Pod → Service → DNS → Endpoint and fix three intentional faults.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — Build a normal service

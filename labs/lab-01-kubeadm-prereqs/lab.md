@@ -1,6 +1,6 @@
 ﻿# Lab 1 — kubeadm Prerequisites and Container Runtime
 
-**Folder:** `labs/lab-01-kubeadm-prereqs/`  ·  **Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Folder:** `labs/lab-01-kubeadm-prereqs/`  ·  **Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 
 > **Two-node setup:** Open **two browser tabs** of the KillerCoda scenario — Tab 1 is your **controlplane**, Tab 2 is your **node01**. Run every step on **both tabs** unless stated otherwise.
 

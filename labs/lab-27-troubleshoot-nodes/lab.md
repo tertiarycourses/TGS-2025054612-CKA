@@ -2,7 +2,7 @@
 
 Nodes go `NotReady` when the kubelet can't report healthy. In this lab you simulate three common node-level failures and recover from each.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — Baseline

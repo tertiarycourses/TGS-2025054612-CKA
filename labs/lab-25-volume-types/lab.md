@@ -2,7 +2,7 @@
 
 Beyond PVCs, pods can mount many in-tree volume types: `emptyDir`, `hostPath`, `configMap`, `secret`, `projected`, `downwardAPI`. In this lab you exercise each of them.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — emptyDir (scratch space, pod lifetime)

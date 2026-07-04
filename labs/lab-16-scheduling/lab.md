@@ -2,7 +2,7 @@
 
 In this lab you control where pods land using resource requests, nodeSelector, node affinity, and taints/tolerations.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — Label your nodes

@@ -2,7 +2,7 @@
 
 In this lab you create a Deployment, perform a rolling update by changing the image, watch the rollout, then roll back to the previous revision.
 
-**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
 ---
 
 ## Step 1 — Create the Deployment
