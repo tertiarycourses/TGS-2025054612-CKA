@@ -2,7 +2,7 @@
 
 ConfigMaps hold non-secret key/value configuration. In this lab you create a ConfigMap three ways (literal, file, manifest) and consume it in a pod as environment variables and as a mounted file.
 
-**Lab environment:** *(link to be added)*
+**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
 ---
 
 ## Step 1 — Create from literals

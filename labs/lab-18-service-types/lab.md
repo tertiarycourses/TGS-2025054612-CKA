@@ -2,7 +2,7 @@
 
 In this lab you expose the same Deployment with each of the three primary Service types and inspect the resulting Endpoints.
 
-**Lab environment:** *(link to be added)*
+**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
 ---
 
 ## Step 1 — Deploy a workload

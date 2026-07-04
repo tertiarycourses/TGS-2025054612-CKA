@@ -2,7 +2,7 @@
 
 CoreDNS is the default in-cluster DNS server. Every pod gets `/etc/resolv.conf` pointing to its ClusterIP. In this lab you inspect CoreDNS, query different record types, and customize the Corefile.
 
-**Lab environment:** *(link to be added)*
+**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
 ---
 
 ## Step 1 — Find the CoreDNS Service

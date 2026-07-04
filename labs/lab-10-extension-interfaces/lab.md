@@ -7,7 +7,7 @@ Kubernetes plugs into the host via three standard interfaces:
 
 In this lab you inspect each one on a running cluster.
 
-**Lab environment:** *(link to be added)*
+**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
 ---
 
 ## Step 1 — CRI: talk to the runtime directly

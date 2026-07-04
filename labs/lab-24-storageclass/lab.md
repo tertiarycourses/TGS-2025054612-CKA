@@ -2,7 +2,7 @@
 
 Static PVs don't scale. With dynamic provisioning, a StorageClass + CSI driver creates a PV on demand when a PVC is submitted. In this lab you install the local-path-provisioner, create a default StorageClass, and watch a PVC trigger PV creation.
 
-**Lab environment:** *(link to be added)*
+**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
 ---
 
 ## Step 1 — Check existing storage classes

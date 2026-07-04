@@ -2,7 +2,7 @@
 
 Every pod gets a routable IP and can reach every other pod without NAT. In this lab you prove the model end-to-end with `netshoot`, a tools-rich debug image.
 
-**Lab environment:** *(link to be added)*
+**Lab environment:** [Play with Kubernetes](https://labs.play-with-k8s.com)
 ---
 
 ## Step 1 — Launch two debug pods
