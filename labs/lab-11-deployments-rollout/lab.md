@@ -2,7 +2,7 @@
 
 In this lab you create a Deployment, perform a rolling update by changing the image, watch the rollout, then roll back to the previous revision.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-11-deployments-rollout)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Step 1 — Create the Deployment

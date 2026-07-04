@@ -2,7 +2,7 @@
 
 NetworkPolicy is the Kubernetes firewall for pod-to-pod traffic. It requires a CNI that enforces policy (Calico, Cilium, Weave). In this lab you write deny-by-default, then progressively allow traffic.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-21-network-policies)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Step 1 — Create a test namespace and pods

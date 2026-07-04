@@ -2,7 +2,7 @@
 
 In this lab you control where pods land using resource requests, nodeSelector, node affinity, and taints/tolerations.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-16-scheduling)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Step 1 — Label your nodes

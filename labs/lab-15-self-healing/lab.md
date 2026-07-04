@@ -2,7 +2,7 @@
 
 Kubernetes self-healing relies on four pillars: liveness/readiness/startup probes, ReplicaSets, DaemonSets, and StatefulSets. In this lab you exercise each one.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-15-self-healing)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Step 1 — Liveness probe

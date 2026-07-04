@@ -2,7 +2,7 @@
 
 Every pod gets a routable IP and can reach every other pod without NAT. In this lab you prove the model end-to-end with `netshoot`, a tools-rich debug image.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-17-pod-connectivity)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Step 1 — Launch two debug pods

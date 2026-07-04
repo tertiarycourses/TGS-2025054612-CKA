@@ -2,7 +2,7 @@
 
 In this lab you install metrics-server, use `kubectl top`, then install the kube-prometheus-stack via Helm for the full Prometheus + Grafana experience.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-29-monitoring)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Step 1 — Install metrics-server

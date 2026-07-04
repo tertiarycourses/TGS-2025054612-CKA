@@ -2,7 +2,7 @@
 
 Two more high-frequency exam scenarios: a ServiceAccount that can't do what it needs, and a Pod that stays `Pending` because the scheduler refuses to place it.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-31-troubleshoot-rbac-sched)
+**Lab environment:** *(link to be added)*
 ---
 
 ## Part A — RBAC
