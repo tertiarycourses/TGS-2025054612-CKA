@@ -1,8 +1,0 @@
-{
-  "title": "Certified Kubernetes Administrator (CKA)",
-  "description": "Hands-on lab course covering all CKA 2026 exam domains: cluster setup, networking, storage, workloads, troubleshooting, and security.",
-  "difficulty": "intermediate",
-  "details": {
-    "steps": []
-  }
-}
