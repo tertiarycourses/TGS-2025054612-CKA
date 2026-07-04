@@ -1,8 +1,8 @@
-# Lab 18 — Service Types: ClusterIP, NodePort, LoadBalancer
+﻿# Lab 18 — Service Types: ClusterIP, NodePort, LoadBalancer
 
 In this lab you expose the same Deployment with each of the three primary Service types and inspect the resulting Endpoints.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-18-service-types)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-18-service-types)
 ---
 
 ## Step 1 — Deploy a workload

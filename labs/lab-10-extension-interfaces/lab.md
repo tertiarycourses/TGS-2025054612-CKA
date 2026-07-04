@@ -1,4 +1,4 @@
-# Lab 10 — Extension Interfaces (CNI, CSI, CRI)
+﻿# Lab 10 — Extension Interfaces (CNI, CSI, CRI)
 
 Kubernetes plugs into the host via three standard interfaces:
 - **CRI** — Container Runtime Interface (containerd, CRI-O)
@@ -7,7 +7,7 @@ Kubernetes plugs into the host via three standard interfaces:
 
 In this lab you inspect each one on a running cluster.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-10-extension-interfaces)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-10-extension-interfaces)
 ---
 
 ## Step 1 — CRI: talk to the runtime directly

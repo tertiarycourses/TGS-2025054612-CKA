@@ -1,8 +1,8 @@
-# Lab 30 — Troubleshoot Services and Networking
+﻿# Lab 30 — Troubleshoot Services and Networking
 
 Service connectivity bugs are the single biggest category of CKA exam questions. In this lab you walk the chain Pod → Service → DNS → Endpoint and fix three intentional faults.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-30-troubleshoot-net)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-30-troubleshoot-net)
 ---
 
 ## Step 1 — Build a normal service

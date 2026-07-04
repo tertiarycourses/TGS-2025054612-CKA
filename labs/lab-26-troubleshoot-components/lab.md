@@ -1,10 +1,10 @@
-# Lab 26 — Troubleshoot Cluster Components
+﻿# Lab 26 — Troubleshoot Cluster Components
 
 When the control plane misbehaves, you need to know which static pod, systemd service, or socket to inspect. In this lab you break the API server's static-pod manifest, observe the symptoms, and recover.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-26-troubleshoot-components)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-26-troubleshoot-components)
 
-https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-26-troubleshoot-components — complete Labs 1–3 first, then continue here.
+https://killercoda.com/tertiary-labs-cka/course/labs/lab-26-troubleshoot-components — complete Labs 1–3 first, then continue here.
 
 ---
 

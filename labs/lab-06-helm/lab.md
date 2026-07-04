@@ -1,8 +1,8 @@
-# Lab 6 — Install Components with Helm
+﻿# Lab 6 — Install Components with Helm
 
 Helm is the package manager for Kubernetes. In this lab you install Helm, add a chart repository, deploy nginx via the Bitnami chart, override values, and roll back.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-06-helm)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-06-helm)
 ---
 
 ## Step 1 — Install the Helm CLI

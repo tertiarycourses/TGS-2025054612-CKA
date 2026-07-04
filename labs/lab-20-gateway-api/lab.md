@@ -1,8 +1,8 @@
-# Lab 20 — Gateway API
+﻿# Lab 20 — Gateway API
 
 The Gateway API is Kubernetes' next-generation ingress: role-oriented (GatewayClass / Gateway / HTTPRoute) and CRD-driven. In this lab you install the API plus a controller (nginx-gateway-fabric) and route HTTP traffic with an HTTPRoute.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-20-gateway-api)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-20-gateway-api)
 ---
 
 ## Step 1 — Install the Gateway API CRDs

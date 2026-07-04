@@ -1,10 +1,10 @@
-# Lab 3 — Install a CNI Plugin (Calico)
+﻿# Lab 3 — Install a CNI Plugin (Calico)
 
 A fresh kubeadm cluster has no pod network. In this lab you install Calico, watch the nodes flip from `NotReady` to `Ready`, and verify pod-to-pod connectivity across nodes.
 
 Continue on the **kubeadm playground** from Lab 2.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-03-cni-calico)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-03-cni-calico)
 
 ---
 

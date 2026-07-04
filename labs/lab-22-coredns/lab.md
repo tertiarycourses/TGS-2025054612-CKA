@@ -1,8 +1,8 @@
-# Lab 22 — CoreDNS
+﻿# Lab 22 — CoreDNS
 
 CoreDNS is the default in-cluster DNS server. Every pod gets `/etc/resolv.conf` pointing to its ClusterIP. In this lab you inspect CoreDNS, query different record types, and customize the Corefile.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-22-coredns)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-22-coredns)
 ---
 
 ## Step 1 — Find the CoreDNS Service

@@ -1,8 +1,8 @@
-# Lab 11 — Deployments: Rolling Update and Rollback
+﻿# Lab 11 — Deployments: Rolling Update and Rollback
 
 In this lab you create a Deployment, perform a rolling update by changing the image, watch the rollout, then roll back to the previous revision.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-11-deployments-rollout)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-11-deployments-rollout)
 ---
 
 ## Step 1 — Create the Deployment

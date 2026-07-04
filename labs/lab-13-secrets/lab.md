@@ -1,8 +1,8 @@
-# Lab 13 — Secrets
+﻿# Lab 13 — Secrets
 
 Kubernetes Secrets carry sensitive data — passwords, tokens, TLS keys — and are base64-encoded (not encrypted) by default. In this lab you create a generic Secret, a TLS Secret, and a docker-registry Secret, and use them from pods.
 
-**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/killercoda/lab-13-secrets)
+**Lab environment:** [KillerCoda](https://killercoda.com/tertiary-labs-cka/course/labs/lab-13-secrets)
 ---
 
 ## Step 1 — Create a generic Secret
