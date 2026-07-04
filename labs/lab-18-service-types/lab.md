@@ -2,7 +2,7 @@
 
 In this lab you expose the same Deployment with each of the three primary Service types and inspect the resulting Endpoints.
 
-**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds)
+**Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds/two-node)
 ---
 
 ## Step 1 — Deploy a workload
