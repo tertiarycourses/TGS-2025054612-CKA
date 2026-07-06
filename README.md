@@ -100,16 +100,24 @@ Hands-on summative assessments, one per training day:
 
 ---
 
+## Learner Guide
+
+The full step-by-step Learner Guide (all 31 labs with commands, YAML and Test-it checks) is available in Markdown: [LEARNER GUIDE.md](LEARNER%20GUIDE.md).
+
+---
+
 ## Courseware
 
 The [`courseware/`](courseware/) folder holds the generated training deliverables:
 
 | File | Description |
 |------|-------------|
-| [`CKA-Certified-Kubernetes-Administrator.pptx`](courseware/CKA-Certified-Kubernetes-Administrator.pptx) | Slide deck (283 slides, all 4 days) |
-| [`CKA-Certified-Kubernetes-Administrator.pdf`](courseware/CKA-Certified-Kubernetes-Administrator.pdf) | PDF version of the slide deck |
+| [`Certified-Kubernetes-Administrator-CKA-v5.pptx`](courseware/Certified-Kubernetes-Administrator-CKA-v5.pptx) | Slide deck (283 slides, all 4 days) |
+| [`Certified-Kubernetes-Administrator-CKA-v5.pdf`](courseware/Certified-Kubernetes-Administrator-CKA-v5.pdf) | PDF version of the slide deck |
 | [`LG-Certified-Kubernetes-Administrator-CKA.docx`](courseware/LG-Certified-Kubernetes-Administrator-CKA.docx) | Learner Guide (Word) |
+| [`LG-Certified-Kubernetes-Administrator-CKA.pdf`](courseware/LG-Certified-Kubernetes-Administrator-CKA.pdf) | Learner Guide (PDF) |
 | [`LP-Certified-Kubernetes-Administrator-CKA.docx`](courseware/LP-Certified-Kubernetes-Administrator-CKA.docx) | Lesson Plan (Word) |
+| [`LP-Certified-Kubernetes-Administrator-CKA.pdf`](courseware/LP-Certified-Kubernetes-Administrator-CKA.pdf) | Lesson Plan (PDF) |
 
 ---
 
@@ -117,5 +125,6 @@ The [`courseware/`](courseware/) folder holds the generated training deliverable
 
 - [labs/README.md](labs/README.md) — Lab index grouped by domain with software requirements
 - [labs/tools.md](labs/tools.md) — Complete list of free tools (Killercoda + external)
+- Tertiary Infotech CKA Practice Exam: https://exams.tertiaryinfotech.com/practice-exams/linuxfoundation/linuxfoundation-cka
 - CNCF CKA exam curriculum: https://github.com/cncf/curriculum
 - Official CKA exam: https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/

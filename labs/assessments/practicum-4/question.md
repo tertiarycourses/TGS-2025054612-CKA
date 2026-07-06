@@ -58,7 +58,7 @@ A CI pipeline ServiceAccount `ci-runner` in namespace `ci` is getting `403 Forbi
 
 ## Part B — Final Mock Exam (1 hour)
 
-Work through CKA-style hands-on tasks covering all five domains. Use killer.sh or the Killercoda CKA practice scenarios. Time yourself — the real exam allows 2 hours for ~15–20 tasks.
+Work through CKA-style tasks covering all five domains using the [Tertiary Infotech CKA Practice Exam](https://exams.tertiaryinfotech.com/practice-exams/linuxfoundation/linuxfoundation-cka). Time yourself — the real exam allows 2 hours for ~15–20 tasks.
 
 Suggested focus areas:
 - etcd snapshot: `etcdctl snapshot save` with correct flags

@@ -5,3 +5,10 @@ __pycache__/
 Thumbs.db
 *.tmp
 *.bak
+
+# Office lock files
+~$*
+
+# WSQ assessment materials (confidential — never pushed)
+/assessment/
+/assessment\ /

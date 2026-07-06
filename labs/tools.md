@@ -60,7 +60,7 @@ Alternative environments if Killercoda is unavailable:
 ### B1. Exam Practice
 | Tool | URL | Purpose |
 |------|-----|---------|
-| **killer.sh** | https://killer.sh | Official CKA exam simulator — 2-hour timed hands-on tasks |
+| **Tertiary Infotech CKA Practice Exam** | https://exams.tertiaryinfotech.com/practice-exams/linuxfoundation/linuxfoundation-cka | CKA practice exam — exam-style questions to test your readiness |
 | **Killercoda CKA** | https://killercoda.com/cka | Community CKA practice scenarios |
 
 ### B2. Official Documentation (allowed in CKA exam)
