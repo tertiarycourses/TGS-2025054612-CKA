@@ -125,6 +125,7 @@ The [`courseware/`](courseware/) folder holds the generated training deliverable
 
 - [labs/README.md](labs/README.md) — Lab index grouped by domain with software requirements
 - [labs/tools.md](labs/tools.md) — Complete list of free tools (Killercoda + external)
+- [`references/`](references/) — Source reference material (previous-version CKA crash-course slide deck)
 - Tertiary Infotech CKA Practice Exam: https://exams.tertiaryinfotech.com/practice-exams/linuxfoundation/linuxfoundation-cka
 - CNCF CKA exam curriculum: https://github.com/cncf/curriculum
 - Official CKA exam: https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
