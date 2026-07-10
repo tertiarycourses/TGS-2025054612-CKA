@@ -3,6 +3,7 @@ __pycache__/
 *.pyo
 .DS_Store
 Thumbs.db
+Assessment/
 *.tmp
 *.bak
 
