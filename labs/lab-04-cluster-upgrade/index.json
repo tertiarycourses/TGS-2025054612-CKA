@@ -1,6 +1,6 @@
 {
   "title": "Lab 4 — Cluster Upgrade with kubeadm",
-  "description": "Upgrade a Kubernetes cluster from v1.30 to v1.31 using kubeadm, following the recommended order: control plane first, then workers.",
+  "description": "Upgrade a Kubernetes cluster from v1.34 to v1.35 using kubeadm, following the recommended order: control plane first, then workers.",
   "difficulty": "intermediate",
   "time": "30",
   "details": {

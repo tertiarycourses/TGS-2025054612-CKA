@@ -1,4 +1,4 @@
-﻿# Lab 1 — kubeadm Prerequisites and Container Runtime
+# Lab 1 — kubeadm Prerequisites and Container Runtime
 
 **Folder:** `labs/lab-01-kubeadm-prereqs/`  ·  **Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds/two-node)
 
@@ -78,9 +78,9 @@ sudo systemctl enable containerd
 ```bash
 sudo apt install -y apt-transport-https ca-certificates curl gpg
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | \
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key | \
   sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | \
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /' | \
   sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
@@ -100,8 +100,8 @@ sudo systemctl status containerd --no-pager | head
 sudo crictl --runtime-endpoint unix:///run/containerd/containerd.sock version
 ```
 
-You should see kubeadm v1.31.x, containerd active, and crictl reporting the runtime version.
+You should see kubeadm v1.35.x, containerd active, and crictl reporting the runtime version.
 
 ---
 
-> ✅ **Test it:** Both tabs show `kubeadm version` returning v1.31.x, `containerd` is active, and `kubectl version --client` works — the cluster is ready for `kubeadm init` in Lab 2.
+> ✅ **Test it:** Both tabs show `kubeadm version` returning v1.35.x, `containerd` is active, and `kubectl version --client` works — the cluster is ready for `kubeadm init` in Lab 2.

@@ -2,7 +2,7 @@
 
 ```bash
 sudo kubeadm upgrade plan
-sudo kubeadm upgrade apply v1.31.0 -y
+sudo kubeadm upgrade apply v1.35.0 -y
 ```
 
 `upgrade apply` upgrades the static pods in `/etc/kubernetes/manifests/` one at a time, with health checks between each.

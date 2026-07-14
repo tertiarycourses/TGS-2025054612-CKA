@@ -10,6 +10,6 @@ You have completed Lab 1 — kubeadm Prerequisites:
 
 ✅ containerd installed and running with SystemdCgroup = true
 
-✅ kubeadm, kubelet, kubectl installed and held at v1.31
+✅ kubeadm, kubelet, kubectl installed and held at v1.35
 
 **Next:** Lab 2 — kubeadm init (bootstrap the control plane)

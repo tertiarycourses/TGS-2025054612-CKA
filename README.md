@@ -112,8 +112,8 @@ The [`courseware/`](courseware/) folder holds the generated training deliverable
 
 | File | Description |
 |------|-------------|
-| [`Certified-Kubernetes-Administrator-CKA-v5.pptx`](courseware/Certified-Kubernetes-Administrator-CKA-v5.pptx) | Slide deck (283 slides, all 4 days) |
-| [`Certified-Kubernetes-Administrator-CKA-v5.pdf`](courseware/Certified-Kubernetes-Administrator-CKA-v5.pdf) | PDF version of the slide deck |
+| [`Certified-Kubernetes-Administrator-CKA-v6.pptx`](courseware/Certified-Kubernetes-Administrator-CKA-v6.pptx) | Slide deck (289 slides, all 4 days) |
+| [`Certified-Kubernetes-Administrator-CKA-v6.pdf`](courseware/Certified-Kubernetes-Administrator-CKA-v6.pdf) | PDF version of the slide deck |
 | [`LG-Certified-Kubernetes-Administrator-CKA.docx`](courseware/LG-Certified-Kubernetes-Administrator-CKA.docx) | Learner Guide (Word) |
 | [`LG-Certified-Kubernetes-Administrator-CKA.pdf`](courseware/LG-Certified-Kubernetes-Administrator-CKA.pdf) | Learner Guide (PDF) |
 | [`LP-Certified-Kubernetes-Administrator-CKA.docx`](courseware/LP-Certified-Kubernetes-Administrator-CKA.docx) | Lesson Plan (Word) |

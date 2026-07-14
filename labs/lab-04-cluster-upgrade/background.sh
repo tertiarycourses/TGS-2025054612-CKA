@@ -1,5 +1,5 @@
 #!/bin/bash
-# Provision a single-node v1.30 Kubernetes cluster in the background.
+# Provision a single-node v1.34 Kubernetes cluster in the background.
 # Runs while the student reads the intro — cluster is ready by Step 1.
 set -e
 
@@ -29,19 +29,19 @@ sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.to
 systemctl restart containerd
 systemctl enable containerd
 
-# ── kubeadm / kubelet / kubectl at v1.30 ─────────────────────────────────────
+# ── kubeadm / kubelet / kubectl at v1.34 ─────────────────────────────────────
 apt-get install -y -qq apt-transport-https ca-certificates curl gpg
 mkdir -p /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | \
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | \
   gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | \
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' | \
   tee /etc/apt/sources.list.d/kubernetes.list
 apt-get update -qq
 apt-get install -y -qq kubelet kubeadm kubectl
 apt-mark hold kubelet kubeadm kubectl
 
 # ── bootstrap the control plane ───────────────────────────────────────────────
-kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version=v1.30.0 \
+kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version=v1.34.0 \
   --ignore-preflight-errors=NumCPU,Mem 2>&1 | tee /tmp/kubeadm-init.log
 
 mkdir -p /root/.kube
@@ -57,4 +57,4 @@ kubectl apply -f \
 
 # Signal that setup is done
 touch /tmp/cluster-ready
-echo "v1.30 cluster ready" > /tmp/cluster-ready
+echo "v1.34 cluster ready" > /tmp/cluster-ready

@@ -3,7 +3,7 @@
 ```bash
 sudo apt-mark unhold kubeadm
 sudo apt update
-sudo apt install -y kubeadm=1.31.0-1.1
+sudo apt install -y kubeadm=1.35.0-1.1
 sudo apt-mark hold kubeadm
 kubeadm version
 ```

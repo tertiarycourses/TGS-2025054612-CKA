@@ -1,10 +1,10 @@
-﻿# Lab 4 — Cluster Upgrade with kubeadm
+# Lab 4 — Cluster Upgrade with kubeadm
 
-In this lab you upgrade a Kubernetes cluster from v1.30 to v1.31 using `kubeadm`. You will follow the recommended order: control plane first, then workers, draining each node before the kubelet restart.
+In this lab you upgrade a Kubernetes cluster from v1.34 to v1.35 using `kubeadm`. You will follow the recommended order: control plane first, then workers, draining each node before the kubelet restart.
 
 **Lab environment:** [Play with Kubernetes](https://killercoda.com/playgrounds/course/kubernetes-playgrounds/two-node)
 
-Use a kubeadm cluster with a pre-installed v1.30 cluster. If you only have v1.31 available, demonstrate the patch-upgrade path (e.g. v1.31.0 → v1.31.1) — the commands are identical.
+Use a kubeadm cluster with a pre-installed v1.34 cluster. If you only have v1.35 available, demonstrate the patch-upgrade path (e.g. v1.35.0 → v1.35.1) — the commands are identical.
 
 ---
 
@@ -23,7 +23,7 @@ kubelet --version
 ```bash
 sudo apt-mark unhold kubeadm
 sudo apt update
-sudo apt install -y kubeadm=1.31.0-1.1
+sudo apt install -y kubeadm=1.35.0-1.1
 sudo apt-mark hold kubeadm
 kubeadm version
 ```
@@ -34,7 +34,7 @@ kubeadm version
 
 ```bash
 sudo kubeadm upgrade plan
-sudo kubeadm upgrade apply v1.31.0 -y
+sudo kubeadm upgrade apply v1.35.0 -y
 ```
 
 `upgrade apply` upgrades the static pods in `/etc/kubernetes/manifests/` one at a time, with health checks between each.
@@ -55,7 +55,7 @@ Drain evicts regular pods so the kubelet restart doesn't disrupt running workloa
 
 ```bash
 sudo apt-mark unhold kubelet kubectl
-sudo apt install -y kubelet=1.31.0-1.1 kubectl=1.31.0-1.1
+sudo apt install -y kubelet=1.35.0-1.1 kubectl=1.35.0-1.1
 sudo apt-mark hold kubelet kubectl
 sudo systemctl daemon-reload
 sudo systemctl restart kubelet
@@ -69,7 +69,7 @@ kubectl uncordon controlplane
 On **node01**:
 
 ```bash
-sudo apt-mark unhold kubeadm && sudo apt install -y kubeadm=1.31.0-1.1 && sudo apt-mark hold kubeadm
+sudo apt-mark unhold kubeadm && sudo apt install -y kubeadm=1.35.0-1.1 && sudo apt-mark hold kubeadm
 sudo kubeadm upgrade node
 ```
 
@@ -83,7 +83,7 @@ On **node01**:
 
 ```bash
 sudo apt-mark unhold kubelet kubectl
-sudo apt install -y kubelet=1.31.0-1.1 kubectl=1.31.0-1.1
+sudo apt install -y kubelet=1.35.0-1.1 kubectl=1.35.0-1.1
 sudo apt-mark hold kubelet kubectl
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```

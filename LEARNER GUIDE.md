@@ -1,12 +1,13 @@
 # Certified Kubernetes Administrator (CKA) — Step-by-Step Learner Guide
 
-**Course Code:** TGS-2025054612  ·  **Version 1.0**  ·  Tertiary Infotech Academy Pte Ltd
+**Course Code:** TGS-2025054612  ·  **Version 1.1**  ·  Tertiary Infotech Academy Pte Ltd
 
 ### Document Version Control Record
 
 | Version | Effective Date | Summary of Changes | Author |
 | --- | --- | --- | --- |
 | 1.0 | 02 July 2026 | First version — step-by-step guide to all 31 CKA labs across five domains (Cluster Architecture & Installation, Workloads & Scheduling, Services & Networking, Storage, Troubleshooting); MD and DOCX generated from one source | Tertiary Infotech Academy Pte Ltd |
+| 1.1 | 14 July 2026 | WSQ tooling refresh; revalidated all 31 labs, TOC, cover layout, and practice exam | Tertiary Infotech Academy Pte Ltd |
 
 ## Table of Contents
 
@@ -160,9 +161,9 @@ sudo systemctl restart containerd && sudo systemctl enable containerd
 ```bash
 sudo apt install -y apt-transport-https ca-certificates curl gpg
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | \
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key | \
   sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | \
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /' | \
   sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt update && sudo apt install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
@@ -176,7 +177,7 @@ kubectl version --client
 sudo systemctl status containerd --no-pager | head
 ```
 
-> ✅ **Test it:** kubeadm version shows v1.31.x, containerd is active, and crictl reports the runtime version.
+> ✅ **Test it:** kubeadm version shows v1.35.x, containerd is active, and crictl reports the runtime version.
 
 ---
 

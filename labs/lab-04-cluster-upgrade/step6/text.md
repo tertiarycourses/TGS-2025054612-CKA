@@ -3,7 +3,7 @@
 On **node01**:
 
 ```bash
-sudo apt-mark unhold kubeadm && sudo apt install -y kubeadm=1.31.0-1.1 && sudo apt-mark hold kubeadm
+sudo apt-mark unhold kubeadm && sudo apt install -y kubeadm=1.35.0-1.1 && sudo apt-mark hold kubeadm
 sudo kubeadm upgrade node
 ```
 
@@ -17,7 +17,7 @@ On **node01**:
 
 ```bash
 sudo apt-mark unhold kubelet kubectl
-sudo apt install -y kubelet=1.31.0-1.1 kubectl=1.31.0-1.1
+sudo apt install -y kubelet=1.35.0-1.1 kubectl=1.35.0-1.1
 sudo apt-mark hold kubelet kubectl
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```

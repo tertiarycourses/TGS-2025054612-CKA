@@ -9,7 +9,7 @@
 
 You are given a fresh two-node Ubuntu environment on Killercoda (kubeadm scenario).
 
-1. On **both** nodes: load the `overlay` and `br_netfilter` kernel modules, set the required `net.ipv4.ip_forward` sysctl, disable swap, install `containerd` with `SystemdCgroup = true`, and install `kubeadm`, `kubelet`, and `kubectl` at version **v1.31** from `pkgs.k8s.io`.
+1. On **both** nodes: load the `overlay` and `br_netfilter` kernel modules, set the required `net.ipv4.ip_forward` sysctl, disable swap, install `containerd` with `SystemdCgroup = true`, and install `kubeadm`, `kubelet`, and `kubectl` at version **v1.35** from `pkgs.k8s.io`.
 
 2. On the **control-plane** node: initialise the cluster with `kubeadm init --pod-network-cidr=192.168.0.0/16`. Copy `admin.conf` to `~/.kube/config`.
 
